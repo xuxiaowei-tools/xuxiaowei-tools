@@ -1,6 +1,6 @@
 [package]
 name = "xuxiaowei-tools"
-version = "0.0.1"
+version = "0.0.2"
 description = "基于 Vite 3、Vue 3、Element Plus 的工具箱"
 authors = ["徐晓伟 <xuxiaowei@xuxiaowei.com.cn>"]
 license = "Apache-2.0"
