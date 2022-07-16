@@ -2,7 +2,7 @@
 
 ## 项目创建
 
-```
+```shell
 npm create tauri-app
 npm i eslint -D
 # 选择
@@ -14,6 +14,8 @@ npm i eslint -D
 # Use a popular style guide
 # Standard: https://github.com/standard/standard
 # JavaScript
+npm i element-plus
+npm i -D unplugin-vue-components unplugin-auto-import
 ```
 
 # Vue 3 + TypeScript + Vite

@@ -40,9 +40,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__ # tauri-action replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'v__VERSION__'
+          tagName: __VERSION__ # tauri-action replaces \_\_VERSION\_\_ with the app version
+          releaseName: '__VERSION__'
           releaseBody:
-            项目初始化完成后进行打包测试
+            1. 集成 element-plus，配置自动导入
           releaseDraft: true
           prerelease: false
