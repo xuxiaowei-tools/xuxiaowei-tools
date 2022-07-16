@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx,.vue --cache --fix",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
@@ -35,7 +36,15 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.0.4",
+    "@typescript-eslint/eslint-plugin": "5.30.6",
+    "@typescript-eslint/parser": "5.30.6",
     "@vitejs/plugin-vue": "3.0.0",
+    "eslint": "8.19.0",
+    "eslint-config-standard": "17.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-n": "15.2.4",
+    "eslint-plugin-promise": "6.0.0",
+    "eslint-plugin-vue": "9.2.0",
     "typescript": "4.7.4",
     "vite": "3.0.0",
     "vue-tsc": "0.38.5"

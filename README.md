@@ -4,6 +4,16 @@
 
 ```
 npm create tauri-app
+npm i eslint -D
+# 选择
+# To check syntax, find problems, and enforce code style
+# JavaScript modules (import/export)
+# Vue.js
+# use TypeScript
+# √ Browser
+# Use a popular style guide
+# Standard: https://github.com/standard/standard
+# JavaScript
 ```
 
 # Vue 3 + TypeScript + Vite
