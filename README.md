@@ -19,6 +19,13 @@ npm i element-plus
 npm i -D unplugin-vue-components unplugin-auto-import
 ```
 
+- 依赖
+
+```shell
+npm i @tauri-apps/api element-plus vue vue-router vuex
+npm i -D @tauri-apps/cli @typescript-eslint/eslint-plugin @typescript-eslint/parser @vitejs/plugin-vue eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise eslint-plugin-vue typescript unplugin-auto-import unplugin-vue-components vite vue-tsc  
+```
+
 # Vue 3 + TypeScript + Vite
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue
