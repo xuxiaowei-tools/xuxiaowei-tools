@@ -1,10 +1,11 @@
-# 基于 Vite 3、Vue 3、Element Plus 的工具箱
+# 基于 Tauri、Vite 3、Vue 3、Element Plus 的工具箱
 
 ## 项目创建
 
 ```shell
 npm create tauri-app
 npm i eslint -D
+npx eslint --init
 # 选择
 # To check syntax, find problems, and enforce code style
 # JavaScript modules (import/export)
