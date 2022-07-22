@@ -1,11 +1,29 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import RSAView from '../views/encryption/RSAView.vue'
+import AESView from '../views/encryption/AESView.vue'
+import MD5View from '../views/encryption/MD5View.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/encryption/RSA',
+    name: 'RSA',
+    component: RSAView
+  },
+  {
+    path: '/encryption/AES',
+    name: 'AES',
+    component: AESView
+  },
+  {
+    path: '/encryption/MD5',
+    name: 'MD5',
+    component: MD5View
   },
   {
     path: '/about',
