@@ -4,9 +4,8 @@
 
 ```shell
 npm create tauri-app
-npm i eslint -D
+npm i -D eslint
 npx eslint --init
-npx husky-init
 # 选择
 # To check syntax, find problems, and enforce code style
 # JavaScript modules (import/export)
@@ -16,6 +15,7 @@ npx husky-init
 # Use a popular style guide
 # Standard: https://github.com/standard/standard
 # JavaScript
+npx husky-init
 npm i element-plus
 npm i -D unplugin-vue-components unplugin-auto-import
 ```
