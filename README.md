@@ -23,7 +23,7 @@ npm i -D unplugin-vue-components unplugin-auto-import
 - 依赖
 
 ```shell
-npm i @tauri-apps/api element-plus vue vue-router vuex
+npm i @tauri-apps/api crypto-js element-plus jsencrypt vue vue-router vuex
 npm i -D @tauri-apps/cli @typescript-eslint/eslint-plugin @typescript-eslint/parser @vitejs/plugin-vue eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise eslint-plugin-vue husky typescript unplugin-auto-import unplugin-vue-components vite vue-tsc  
 ```
 
