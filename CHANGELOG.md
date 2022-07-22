@@ -5,6 +5,10 @@
 1. 集成 element-plus，配置自动导入
 2. 集成 vue-router
 3. 集成 vuex
+4. 集成 crypto-js，用于计算 AES 等加密
+5. 集成 jsencrypt，用于计算 RSA 加密
+6. 集成 vue-clipboard3，用于复制
+7. 集成 husky，用于配置 git hook
 
 ## 0.0.1
 
