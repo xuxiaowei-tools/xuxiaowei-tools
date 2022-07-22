@@ -16,6 +16,13 @@
     "prepare": "husky install"
   },
   "author": "徐晓伟 <xuxiaowei@xuxiaowei.com.cn>",
+  "contributors": [
+    {
+      "name": "徐晓伟",
+      "email": "xuxiaowei@xuxiaowei.com.cn",
+      "url": "https://github.com/xuxiaowei-com-cn"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools/issues"
