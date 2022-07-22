@@ -5,7 +5,7 @@
   "description": "基于 Tauri、Vite 3、Vue 3、Element Plus 的工具箱",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx,.vue --cache --fix",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
