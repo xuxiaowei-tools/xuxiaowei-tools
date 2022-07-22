@@ -9,6 +9,7 @@
 5. 集成 [jsencrypt](https://github.com/travist/jsencrypt)，用于计算 RSA 加密
 6. 集成 [vue-clipboard3](https://github.com/JamieCurnow/vue-clipboard3)，用于复制
 7. 集成 husky，用于配置 git hook
+8. 集成 sass
 
 ## 0.0.1
 
