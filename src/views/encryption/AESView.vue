@@ -52,10 +52,10 @@
 
   <el-row class="button-row" justify="space-evenly">
     <el-col :span="11">
-      <el-button @click="encrypt" class="encrypt-button">加密</el-button>
+      <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
     <el-col :span="11">
-      <el-button @click="decrypt" class="decrypt-button">解密</el-button>
+      <el-button @click="decrypt" class="decrypt-button w-100%">解密</el-button>
     </el-col>
   </el-row>
 
@@ -265,7 +265,7 @@ watch(() => type.value, (newValue, oldValue) => {
   // 加密、解密按钮
   .encrypt-button,
   .decrypt-button {
-    width: 100%;
+
   }
 }
 
