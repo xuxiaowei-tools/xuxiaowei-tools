@@ -33,10 +33,18 @@
 
   <el-row justify="space-evenly">
     <el-col :span="11">
-      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板"/>
+      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板">
+        <template #prepend>
+          <span>秘钥 key</span>
+        </template>
+      </el-input>
     </el-col>
     <el-col :span="11" v-if="type === '2'">
-      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick" data-dblclick="偏移量已复制到剪贴板"/>
+      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick" data-dblclick="偏移量已复制到剪贴板">
+        <template #prepend>
+          <span>偏移量 iv</span>
+        </template>
+      </el-input>
     </el-col>
   </el-row>
 
