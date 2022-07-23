@@ -33,10 +33,18 @@
 
   <el-row justify="space-evenly">
     <el-col :span="11">
-      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板"/>
+      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板">
+        <template #prepend>
+          <span>秘钥 key</span>
+        </template>
+      </el-input>
     </el-col>
     <el-col :span="11" v-if="type === '2'">
-      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick" data-dblclick="偏移量已复制到剪贴板"/>
+      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick" data-dblclick="偏移量已复制到剪贴板">
+        <template #prepend>
+          <span>偏移量 iv</span>
+        </template>
+      </el-input>
     </el-col>
   </el-row>
 
@@ -44,10 +52,10 @@
 
   <el-row class="button-row" justify="space-evenly">
     <el-col :span="11">
-      <el-button @click="encrypt" class="encrypt-button">加密</el-button>
+      <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
     <el-col :span="11">
-      <el-button @click="decrypt" class="decrypt-button">解密</el-button>
+      <el-button @click="decrypt" class="decrypt-button w-100%">解密</el-button>
     </el-col>
   </el-row>
 
@@ -257,7 +265,7 @@ watch(() => type.value, (newValue, oldValue) => {
   // 加密、解密按钮
   .encrypt-button,
   .decrypt-button {
-    width: 100%;
+
   }
 }
 
