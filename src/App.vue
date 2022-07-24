@@ -18,6 +18,8 @@
       <router-link to="/about">About</router-link>
       <el-divider direction="vertical" />
       <router-link to="/timestamp">timestamp</router-link>
+      <el-divider direction="vertical" />
+      <router-link to="/idCard">IdCard</router-link>
     </el-col>
   </el-row>
   <router-view/>
