@@ -5,6 +5,7 @@ import AESView from '../views/encryption/AESView.vue'
 import MD5View from '../views/encryption/MD5View.vue'
 import Timestamp from '../views/timestamp/index.vue'
 import IP from '../views/IP.vue'
+import IdCard from '../views/idCard/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/ip',
     name: 'IP',
     component: IP
+  },
+  {
+    path: '/idCard',
+    name: 'idCard',
+    component: IdCard
   },
   {
     path: '/about',
