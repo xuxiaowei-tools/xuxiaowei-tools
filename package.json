@@ -30,12 +30,12 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools/issues"
+    "url": "https://github.com/xuxiaowei-tools/xuxiaowei-tools/issues"
   },
-  "homepage": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools#README",
+  "homepage": "https://github.com/xuxiaowei-tools/xuxiaowei-tools#README",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuxiaowei-com-cn/xuxiaowei-tools.git"
+    "url": "git+https://github.com/xuxiaowei-tools/xuxiaowei-tools.git"
   },
   "keywords": [
     "@tauri-apps/api",
