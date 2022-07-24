@@ -77,7 +77,7 @@ const getAddress = () => {
     addressNum = randomProperty(area[address.city!]).slice(0, 6)
   } else if (address.province) {
     // 选择省的情况
-    addressNum = randomProperty(area[address.province!][randomProperty(area[address.province!])]).slice(0, 6)
+    addressNum = randomProperty(area[randomProperty(area[address.province!])]).slice(0, 6)
   } else {
     addressNum = randomProperty(area[randomProperty(area[randomProperty(area['86'])])]).slice(0, 6)
   }
