@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     // 多个单词组件名称
-    'vue/multi-word-component-names': 0
+    'vue/multi-word-component-names': 0,
+    'vue/valid-v-for': 0
   }
 }
