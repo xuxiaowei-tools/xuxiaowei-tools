@@ -53,4 +53,4 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/xuxiaowei-com-cn/xuxiaowei-tools.svg)](https://starchart.cc/xuxiaowei-com-cn/xuxiaowei-tools)
+[![Stargazers over time](https://starchart.cc/xuxiaowei-tools/xuxiaowei-tools.svg)](https://starchart.cc/xuxiaowei-tools/xuxiaowei-tools)

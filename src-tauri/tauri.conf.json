@@ -30,7 +30,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.com.xuxiaowei.tools",
-      "longDescription": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools",
+      "longDescription": "https://github.com/xuxiaowei-tools/xuxiaowei-tools",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",

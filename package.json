@@ -30,12 +30,12 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools/issues"
+    "url": "https://github.com/xuxiaowei-tools/xuxiaowei-tools/issues"
   },
-  "homepage": "https://github.com/xuxiaowei-com-cn/xuxiaowei-tools#README",
+  "homepage": "https://github.com/xuxiaowei-tools/xuxiaowei-tools#README",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuxiaowei-com-cn/xuxiaowei-tools.git"
+    "url": "git+https://github.com/xuxiaowei-tools/xuxiaowei-tools.git"
   },
   "keywords": [
     "@tauri-apps/api",
@@ -55,6 +55,7 @@
   "dependencies": {
     "@tauri-apps/api": "1.0.2",
     "@types/crypto-js": "4.1.1",
+    "axios": "0.27.2",
     "crypto-js": "4.1.1",
     "element-plus": "2.2.10",
     "jsencrypt": "3.2.1",
