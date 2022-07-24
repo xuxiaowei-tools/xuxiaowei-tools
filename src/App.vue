@@ -19,7 +19,10 @@
       <el-divider direction="vertical" />
       <router-link to="/ip">IP</router-link>
       <el-divider direction="vertical" />
+      <router-link to="/idCard">IdCard</router-link>
+      <el-divider direction="vertical" />
       <router-link to="/about">About</router-link>
+
     </el-col>
   </el-row>
   <router-view/>
