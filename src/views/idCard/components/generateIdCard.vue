@@ -57,7 +57,7 @@ import area from '../utils/area'
 const showIdCardList = ref<string[]>([])
 
 // 获取随机属性
-const randomProperty = function(obj: object) {
+const randomProperty = function (obj: object) {
   const keys = Object.keys(obj)
   const s = parseInt((Math.random() * (keys.length + 1) - 1).toString())
   return keys[s]
@@ -128,8 +128,8 @@ const generate = (address: string, birthday: string) => {
     total = total + parseInt(array[i]) * parseInt(coefficientArray[i])
   }
   const lastNumber = lastNumberArray[parseInt((total % 11).toString())]
-  const id_no_String = address + birthday + s + lastNumber
-  showIdCardList.value.push(id_no_String)
+  const idNoString = address + birthday + s + lastNumber
+  showIdCardList.value.push(idNoString)
 }
 
 // 生成个数

@@ -1,8 +1,8 @@
 stages:
-  - deploy
+  - build
 
-pages:
-  stage: deploy
+build:
+  stage: build
   image: node:16.5.0
   cache:
     key:
@@ -19,4 +19,4 @@ pages:
     paths:
       - public
   rules:
-    - if: $CI_COMMIT_BRANCH == "page"
+    - if: $CI_COMMIT_BRANCH == "main"
