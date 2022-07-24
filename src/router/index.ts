@@ -4,6 +4,7 @@ import RSAView from '../views/encryption/RSAView.vue'
 import AESView from '../views/encryption/AESView.vue'
 import MD5View from '../views/encryption/MD5View.vue'
 import Timestamp from '../views/timestamp/index.vue'
+import IP from '../views/IP.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,6 +31,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/timestamp',
     name: 'timestamp',
     component: Timestamp
+  },
+  {
+    path: '/ip',
+    name: 'IP',
+    component: IP
   },
   {
     path: '/about',
