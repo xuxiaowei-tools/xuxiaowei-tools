@@ -42,10 +42,10 @@
     "crypto-js",
     "element-plus",
     "jsencrypt",
+    "pinia",
     "vue",
     "vue-clipboard3",
     "vue-router",
-    "vuex",
     "@tauri-apps/cli",
     "eslint",
     "husky",
@@ -60,10 +60,11 @@
     "crypto-js": "4.1.1",
     "element-plus": "2.2.10",
     "jsencrypt": "3.2.1",
+    "pinia": "2.0.16",
+    "pinia-plugin-persist": "1.0.0",
     "vue": "3.2.37",
     "vue-clipboard3": "2.0.0",
-    "vue-router": "4.1.2",
-    "vuex": "4.0.2"
+    "vue-router": "4.1.2"
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.0.4",

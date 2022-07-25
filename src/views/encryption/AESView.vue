@@ -38,8 +38,8 @@
           <span>秘钥 key</span>
         </template>
         <template #append>
-          <el-select v-model="keyMode" placeholder="选择秘钥编码">
-            <el-option v-for="item in modeEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
+          <el-select v-model="keyEnc" placeholder="选择秘钥编码">
+            <el-option v-for="item in keyEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </template>
       </el-input>
@@ -50,7 +50,7 @@
           <span>偏移量 iv</span>
         </template>
         <template #append>
-          <el-select v-model="ivMode" placeholder="选择偏移量编码">
+          <el-select v-model="ivEnc" placeholder="选择偏移量编码">
             <el-option v-for="item in ivEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </template>
@@ -65,15 +65,8 @@
       <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
     <el-col :span="11">
-      <el-button @click="decrypt" class="decrypt-button w-100%">解密</el-button>
-    </el-col>
-  </el-row>
-
-  <br>
-
-  <el-row justify="space-evenly">
-    <el-col :span="11">
-      <el-select v-model="decryptEnc" placeholder="请选择解密编码" class="w-100%">
+      <el-button @click="decrypt" class="decrypt-button">解密</el-button>
+      <el-select v-model="decryptEnc" placeholder="请选择解密编码" class="decrypt-enc-select w-100px">
         <el-option v-for="item in decryptEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-col>
@@ -99,22 +92,41 @@ import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import CryptoJS from 'crypto-js'
 import useClipboard from 'vue-clipboard3'
+import { aesStore } from '../../store'
 
 const route = useRoute()
 const router = useRouter()
 
 const { toClipboard } = useClipboard()
+const store = aesStore()
 
 // 类型
 // 1：仅秘钥 key
 // 2：秘钥 key + 偏移量 iv
 // type 是 1 或 2 时，使用原来的值，如果不是，使用 1
 const type = ref((route.query.type === '1' || route.query.type === '2') ? route.query.type : '1')
+watch(() => type.value, (newValue, oldValue) => {
+  // 切换类型时，改变 URL 参数
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.type = newValue
+  const locationQueryRaw = ref<LocationQueryRaw>(query)
+
+  router.replace({
+    query: locationQueryRaw.value
+  })
+})
 
 // 模式
-const mode = ref('ECB')
+const mode = ref(store.getMode)
+watch(() => mode.value, (newValue, oldValue) => {
+  store.setMode(newValue)
+})
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const modeOptions = [
+  {
+    value: 'ECB',
+    label: 'ECB'
+  },
   {
     value: 'CBC',
     label: 'CBC'
@@ -130,15 +142,14 @@ const modeOptions = [
   {
     value: 'OFB',
     label: 'OFB'
-  },
-  {
-    value: 'ECB',
-    label: 'ECB'
   }
 ]
 
 // 填充方案
-const padding = ref('Pkcs7')
+const padding = ref(store.getPadding)
+watch(() => padding.value, (newValue, oldValue) => {
+  store.setPadding(newValue)
+})
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const paddingOptions = [
   {
@@ -201,9 +212,12 @@ const decryptEncOptions = [
 ]
 
 // 秘钥
-const key = ref('1234567890ABCDEF')
-const keyMode = ref('Utf8')
-const modeEncOptions = [
+const key = ref(store.getKey)
+watch(() => key.value, (newValue, oldValue) => {
+  store.setKey(newValue)
+})
+const keyEnc = ref('Utf8')
+const keyEncOptions = [
   {
     value: '',
     label: 'default'
@@ -243,8 +257,12 @@ const modeEncOptions = [
 ]
 
 // 偏移量
-const iv = ref('')
-const ivMode = ref('Utf8')
+const iv = ref(store.getKey)
+watch(() => iv.value, (newValue, oldValue) => {
+  store.setIv(newValue)
+})
+// 偏移量编码
+const ivEnc = ref('Utf8')
 const ivEncOptions = [
   {
     value: '',
@@ -292,7 +310,7 @@ const ciphertext = ref('')
 
 // 加密
 const encrypt = () => {
-  const keyValue = valueParse(keyMode.value, key.value)
+  const keyValue = valueParse(keyEnc.value, key.value)
   try {
     if (type.value === '1') {
       // 1：仅秘钥 key
@@ -302,7 +320,7 @@ const encrypt = () => {
       }).toString()
     } else {
       // 2：秘钥 key + 偏移量 iv
-      const ivParse = valueParse(ivMode.value, iv.value)
+      const ivParse = valueParse(ivEnc.value, iv.value)
       ciphertext.value = CryptoJS.AES.encrypt(originalText.value, keyValue, {
         ivParse,
         mode: getMode(mode.value),
@@ -323,7 +341,7 @@ const encrypt = () => {
 // 解密
 const decrypt = () => {
   let bytes
-  const keyValue = valueParse(keyMode.value, key.value)
+  const keyValue = valueParse(keyEnc.value, key.value)
   try {
     if (type.value === '1') {
       // 1：仅秘钥 key
@@ -341,7 +359,6 @@ const decrypt = () => {
           padding: getPadding(padding.value)
         })
     }
-    ElMessage({ message: '解密完成', type: 'success' })
   } catch (e) {
     if (type.value === '1') {
       ElMessage.error('解密失败，请确认秘钥 key、模式 mode、填充 padding 是否正确')
@@ -356,7 +373,9 @@ const decrypt = () => {
   }
 
   try {
+    console.log(getEnc(decryptEnc.value))
     originalText.value = bytes.toString(getEnc(decryptEnc.value))
+    ElMessage({ message: '解密完成', type: 'success' })
   } catch (e) {
     ElMessage.error('解密后转码失败')
     console.error(e)
@@ -454,17 +473,6 @@ const dblclick = async (e: any) => {
   }
 }
 
-watch(() => type.value, (newValue, oldValue) => {
-  // 切换类型时，改变 URL 参数
-  const query = JSON.parse(JSON.stringify(route.query))
-  query.type = newValue
-  const locationQueryRaw = ref<LocationQueryRaw>(query)
-
-  router.replace({
-    query: locationQueryRaw.value
-  })
-})
-
 </script>
 
 <style scoped lang="scss">
@@ -478,6 +486,11 @@ watch(() => type.value, (newValue, oldValue) => {
 
   // 解密按钮
   .decrypt-button {
+    width: calc(100% - 100px);
+  }
+
+  // 解密编码选择
+  .decrypt-enc-select {
 
   }
 
