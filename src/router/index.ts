@@ -1,11 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import RSAView from '../views/encryption/RSAView.vue'
-import AESView from '../views/encryption/AESView.vue'
-import MD5View from '../views/encryption/MD5View.vue'
-import Timestamp from '../views/timestamp/index.vue'
-import IP from '../views/IP.vue'
-import IdCard from '../views/idCard/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,32 +10,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/encryption/RSA',
     name: 'RSA',
-    component: RSAView
+    component: () => import('../views/encryption/RSAView.vue')
   },
   {
     path: '/encryption/AES',
     name: 'AES',
-    component: AESView
+    component: () => import('../views/encryption/AESView.vue')
   },
   {
     path: '/encryption/MD5',
     name: 'MD5',
-    component: MD5View
+    component: () => import('../views/encryption/MD5View.vue')
   },
   {
     path: '/timestamp',
     name: 'timestamp',
-    component: Timestamp
+    component: () => import('../views/timestamp/index.vue')
   },
   {
     path: '/ip',
     name: 'IP',
-    component: IP
+    component: () => import('../views/IP.vue')
   },
   {
     path: '/idCard',
     name: 'idCard',
-    component: IdCard
+    component: () => import('../views/idCard/index.vue')
   },
   {
     path: '/about',
