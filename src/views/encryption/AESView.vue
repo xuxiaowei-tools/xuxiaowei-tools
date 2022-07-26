@@ -1,11 +1,11 @@
 <template>
-  <el-row justify="space-evenly">
+  <el-row justify="center">
     <el-col :span="22" style="text-align: center">
       <h1>AES 对称性加密</h1>
     </el-col>
   </el-row>
 
-  <el-row style="text-align: center">
+  <el-row justify="center">
     <el-col :span="22">
       <el-radio-group v-model="type">
         <el-radio border label="1">仅秘钥 key</el-radio>
@@ -16,7 +16,7 @@
 
   <br>
 
-  <el-row justify="space-evenly">
+  <el-row justify="center" gutter="20">
     <el-col :span="11">
       <el-select v-model="mode" placeholder="请选择模式" class="w-100%">
         <el-option v-for="item in modeOptions" :key="item.value" :label="item.label" :value="item.value"/>
@@ -31,8 +31,8 @@
 
   <br>
 
-  <el-row justify="space-evenly">
-    <el-col :span="11">
+  <el-row justify="center" gutter="20">
+    <el-col :span="type === '1' ? 22 : 11">
       <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板">
         <template #prepend>
           <span>秘钥 key</span>
@@ -60,7 +60,7 @@
 
   <br>
 
-  <el-row class="button-row" justify="space-evenly">
+  <el-row class="button-row" justify="center" gutter="20">
     <el-col :span="11">
       <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
@@ -74,7 +74,7 @@
 
   <br>
 
-  <el-row class="text-row" justify="space-evenly">
+  <el-row class="text-row" justify="center" gutter="20">
     <el-col :span="11">
       <el-input v-model="originalText" class="originalText-input" placeholder="原文" type="textarea" @dblclick="dblclick"
                 rows="15" data-dblclick="原文已复制到剪贴板"/>
