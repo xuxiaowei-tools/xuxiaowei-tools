@@ -1,18 +1,8 @@
 import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { createPinia, defineStore } from 'pinia'
 
-export const aesStore = defineStore({
-  id: 'aes',
-  // @ts-ignore
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'aes', // 秘钥
-        storage: localStorage // 存储方式，默认：sessionStorage，可选：localStorage
-      }
-    ]
-  },
+// 不能直接导出使用（需要设置订阅修改$subscribe、自定义获取数据$state的方法）
+const aesDefineStore = defineStore('aes', {
   state: () => ({
     key: ref<string>('1234567890ABCDEF'), // AES 秘钥
     iv: ref<string>('abcdefghijklmnop'), // AES 偏移量
@@ -80,3 +70,23 @@ export const aesStore = defineStore({
     }
   }
 })
+
+const aesStore = aesDefineStore(createPinia())
+
+// 订阅缓存的修改
+aesStore.$subscribe((mutation, state) => {
+  // 将缓存的修改放入本地缓存中
+  localStorage.setItem(aesStore.$id, JSON.stringify({ ...state }))
+})
+
+// 获取历史缓存
+const aesStoreOld = localStorage.getItem(aesStore.$id)
+if (aesStoreOld) {
+  // 返回已存在的缓存
+  aesStore.$state = JSON.parse(aesStoreOld)
+}
+
+// 注意，在使用时，不用构造方法，直接调用即可
+export {
+  aesStore
+}

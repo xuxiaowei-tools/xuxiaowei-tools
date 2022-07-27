@@ -1,12 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { aesStore } from '../store'
-import { createPinia } from 'pinia'
-const store = createPinia()
 
-const aes = aesStore(store)
-
-console.log('在路由中测试获取缓存', aes)
+console.log('在路由中测试获取缓存', aesStore.getKey)
 
 const routes: Array<RouteRecordRaw> = [
   {
