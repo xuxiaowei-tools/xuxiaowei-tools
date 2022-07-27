@@ -92,7 +92,7 @@ import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import CryptoJS from 'crypto-js'
 import useClipboard from 'vue-clipboard3'
-import { aesStore } from '../../store'
+import aesStore from '../../store/aes'
 
 const route = useRoute()
 const router = useRouter()
