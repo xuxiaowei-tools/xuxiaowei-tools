@@ -5,7 +5,7 @@
     </el-col>
   </el-row>
 
-  <el-row justify="center">
+  <el-row class="text-center">
     <el-col :span="22">
       <el-radio-group v-model="type">
         <el-radio border label="1">仅秘钥 key</el-radio>
