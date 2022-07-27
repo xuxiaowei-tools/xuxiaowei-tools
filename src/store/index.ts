@@ -1,18 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const aesStore = defineStore({
-  id: 'aes',
-  // @ts-ignore
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'aes', // 秘钥
-        storage: localStorage // 存储方式，默认：sessionStorage，可选：localStorage
-      }
-    ]
-  },
+// https://seb-l.github.io/pinia-plugin-persist/advanced/strategies.html
+export const aesStore = defineStore('aes', {
   state: () => ({
     key: ref<string>('1234567890ABCDEF'), // AES 秘钥
     iv: ref<string>('abcdefghijklmnop'), // AES 偏移量
@@ -78,5 +68,14 @@ export const aesStore = defineStore({
     setPadding (padding: string) {
       this.padding = padding
     }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'aes', // 秘钥
+        storage: localStorage // 存储方式，默认：sessionStorage，可选：localStorage
+      }
+    ]
   }
 })
