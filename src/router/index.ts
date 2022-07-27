@@ -6,7 +6,10 @@ const pinia = createPinia()
 
 const aes = aesStore(pinia)
 
-console.log('在路由中测试获取缓存', aes)
+// bug 复现
+// 在 AES 页面，修改 key，刷新后，AES 页面中的值能保持修改后的
+// 但是在此处依然获取的是预设值
+console.log('在路由中测试获取缓存', aes.getKey)
 
 const routes: Array<RouteRecordRaw> = [
   {
