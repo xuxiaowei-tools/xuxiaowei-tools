@@ -98,7 +98,6 @@ const route = useRoute()
 const router = useRouter()
 
 const { toClipboard } = useClipboard()
-const store = aesStore()
 
 // 类型
 // 1：仅秘钥 key
@@ -117,9 +116,9 @@ watch(() => type.value, (newValue, oldValue) => {
 })
 
 // 模式
-const mode = ref(store.getMode)
+const mode = ref(aesStore.getMode)
 watch(() => mode.value, (newValue, oldValue) => {
-  store.setMode(newValue)
+  aesStore.setMode(newValue)
 })
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const modeOptions = [
@@ -146,9 +145,9 @@ const modeOptions = [
 ]
 
 // 填充方案
-const padding = ref(store.getPadding)
+const padding = ref(aesStore.getPadding)
 watch(() => padding.value, (newValue, oldValue) => {
-  store.setPadding(newValue)
+  aesStore.setPadding(newValue)
 })
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const paddingOptions = [
@@ -212,9 +211,9 @@ const decryptEncOptions = [
 ]
 
 // 秘钥
-const key = ref(store.getKey)
+const key = ref(aesStore.getKey)
 watch(() => key.value, (newValue, oldValue) => {
-  store.setKey(newValue)
+  aesStore.setKey(newValue)
 })
 const keyEnc = ref('Utf8')
 const keyEncOptions = [
@@ -257,9 +256,9 @@ const keyEncOptions = [
 ]
 
 // 偏移量
-const iv = ref(store.getKey)
+const iv = ref(aesStore.getKey)
 watch(() => iv.value, (newValue, oldValue) => {
-  store.setIv(newValue)
+  aesStore.setIv(newValue)
 })
 // 偏移量编码
 const ivEnc = ref('Utf8')
