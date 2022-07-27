@@ -59,6 +59,7 @@
     "crypto-js": "4.1.1",
     "element-plus": "2.2.10",
     "jsencrypt": "3.2.1",
+    "keypair": "1.0.3",
     "pinia": "2.0.16",
     "pinia-plugin-persist": "1.0.0",
     "vue": "3.2.37",
