@@ -1,9 +1,9 @@
 <template>
-  <div class="text-center px-30px py-30px">
+  <div class="w-960px ma px-30px py-30px mt-50px">
     <!-- 时间戳转时间 -->
-    <div class=" inline-flex justify-center lh-30px color-#333">
-      <div class="w-80px block"><span>时间戳：</span></div>
-      <el-input v-model="inputValue" :oninput="inputValue = inputNum(inputValue)" class="w-460px">
+    <div class="flex justify-center lh-30px color-#333">
+      <div class="w-80px block text-right"><span>时间戳：</span></div>
+      <el-input v-model="inputValue" :oninput="inputValue = inputNum(inputValue)" class="flex-1">
         <template #append>
           <el-select v-model="typeValue" placeholder="Select" style="width: 80px">
             <el-option label="毫秒" value="1" />
@@ -12,19 +12,19 @@
         </template>
       </el-input>
       <el-button @click="changeStr" class="mx-20px">转换</el-button>
-      <el-input v-model="outPutValue" class="w-460px"></el-input>
+      <el-input v-model="outPutValue" class="flex-1"></el-input>
     </div>
 
     <!-- 时间转时间戳 -->
-    <div class=" inline-flex justify-center lh-30px color-#333 mt-30px">
-      <div class="w-80px block"><span>时间：</span></div>
-      <el-input v-model="timeInput" class="w-460px">
+    <div class="flex justify-center lh-30px color-#333 mt-30px">
+      <div class="w-80px block text-right"><span>时间：</span></div>
+      <el-input v-model="timeInput" class="flex-1">
         <template #append>
           <el-button @click="getNow">现在</el-button>
         </template>
       </el-input>
       <el-button @click="changeStamp" class="mx-20px">转换</el-button>
-      <el-input v-model="outPutStamp" class="w-460px">
+      <el-input v-model="outPutStamp" class="flex-1">
         <template #append>
           <el-select v-model="stampTypeValue" placeholder="Select" style="width: 80px">
             <el-option label="毫秒" value="1" />
