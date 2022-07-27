@@ -1,11 +1,5 @@
 import { ref } from 'vue'
-import { defineStore, createPinia } from 'pinia'
-import piniaPluginPersist from 'pinia-plugin-persist'
-
-const store = createPinia()
-store.use(piniaPluginPersist)
-
-export default store
+import { defineStore } from 'pinia'
 
 export const aesStore = defineStore({
   id: 'aes',
