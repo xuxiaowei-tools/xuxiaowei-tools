@@ -6,37 +6,37 @@
       <div class="flex justify-start lh-30px py-10px px-10px mt-16px">
         <div class="w-120px block text-right"><span>出生地：</span></div>
         <el-select v-model="address.province" placeholder="请选择" class="ml-10px w-250px">
-          <el-option v-for="value, key in area['86']" :label="value" :value="key" />
+          <el-option v-for="value, key in area['86']" :label="value" :value="key" :key="key" />
         </el-select>
         <el-select v-model="address.city" placeholder="请选择" class="ml-10px w-250px">
-          <el-option v-for="value, key in area[address.province!]" :label="value" :value="key" />
+          <el-option v-for="value, key in area[address.province!]" :label="value" :value="key" :key="key" />
         </el-select>
         <el-select v-model="address.area" placeholder="请选择" class="ml-10px w-250px">
-          <el-option v-for="value, key in area[address.city!]" :label="value" :value="key" />
+          <el-option v-for="value, key in area[address.city!]" :label="value" :value="key" :key="key"/>
         </el-select>
       </div>
       <div class="flex justify-start lh-30px  py-10px px-10px">
         <div class="w-120px block text-right"><span>出生日期：</span></div>
         <el-select v-model="birth.year" placeholder="请选择" class="ml-10px w-130px">
-          <el-option v-for="item in yearList" :label="item" :value="item" />
+          <el-option v-for="item in yearList" :label="item" :value="item" :key="item" />
         </el-select>
         <el-select v-model="birth.month" placeholder="请选择" class="ml-10px w-130px">
-          <el-option v-for="item in monthList" :label="item" :value="item" />
+          <el-option v-for="item in monthList" :label="item" :value="item" :key="item"/>
         </el-select>
         <el-select v-model="birth.day" placeholder="请选择" class="ml-10px w-130px">
-          <el-option v-for="item in dayList" :label="item" :value="item" />
+          <el-option v-for="item in dayList" :label="item" :value="item" :key="item"/>
         </el-select>
       </div>
       <div class="flex justify-start lh-30px  py-10px px-10px">
         <div class="w-120px block text-right"><span>性别：</span></div>
         <el-select v-model="sex" placeholder="请选择" class="ml-10px w-130px">
-          <el-option v-for="item in sexList" :label="item.label" :value="item.value" />
+          <el-option v-for="item in sexList" :label="item.label" :value="item.value" :key="item.value"/>
         </el-select>
       </div>
       <div class="flex justify-start lh-30px py-10px px-10px">
         <div class="w-120px block text-right"><span>生成个数：</span></div>
         <el-select v-model="createNum" placeholder="请选择" class="ml-10px w-130px">
-          <el-option v-for="item in [1, 5, 10, 20, 50]" :label="item" :value="item" />
+          <el-option v-for="item in [1, 5, 10, 20, 50]" :label="item" :value="item" :key="item"/>
         </el-select>
       </div>
       <el-button class="mt-10px ml-450px text-center" :icon="Pointer" @click="generateBtn">生成</el-button>
@@ -57,7 +57,7 @@ import area from '../utils/area'
 const showIdCardList = ref<string[]>([])
 
 // 获取随机属性
-const randomProperty = function(obj: object) {
+const randomProperty = (obj: object) => {
   const keys = Object.keys(obj)
   const s = parseInt((Math.random() * (keys.length + 1) - 1).toString())
   return keys[s]
@@ -128,8 +128,8 @@ const generate = (address: string, birthday: string) => {
     total = total + parseInt(array[i]) * parseInt(coefficientArray[i])
   }
   const lastNumber = lastNumberArray[parseInt((total % 11).toString())]
-  const id_no_String = address + birthday + s + lastNumber
-  showIdCardList.value.push(id_no_String)
+  const idNoString = address + birthday + s + lastNumber
+  showIdCardList.value.push(idNoString)
 }
 
 // 生成个数
