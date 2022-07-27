@@ -15,7 +15,7 @@
       <el-divider direction="vertical" />
       <router-link to="/encryption/MD5">MD5</router-link>
       <el-divider direction="vertical" />
-      <router-link to="/timestamp">timestamp</router-link>
+      <router-link to="/timestamp">TimeStamp</router-link>
       <el-divider direction="vertical" />
       <router-link to="/ip">IP</router-link>
       <el-divider direction="vertical" />
