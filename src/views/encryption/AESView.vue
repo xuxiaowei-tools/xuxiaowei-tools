@@ -256,7 +256,7 @@ const keyEncOptions = [
 ]
 
 // 偏移量
-const iv = ref(aesStore.getKey)
+const iv = ref(aesStore.getIv)
 watch(() => iv.value, (newValue, oldValue) => {
   aesStore.setIv(newValue)
 })
