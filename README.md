@@ -99,7 +99,7 @@ npm i -D unplugin-vue-components unplugin-auto-import
 - 依赖
 
 ```shell
-npm i @element-plus/icons-vue @tauri-apps/api @types/crypto-js crypto-js element-plus jsencrypt pinia pinia-plugin-persist vue vue-clipboard3 vue-router
+npm i @element-plus/icons-vue @tauri-apps/api @types/crypto-js crypto-js element-plus jsencrypt pinia vue vue-clipboard3 vue-router
 npm i -D @tauri-apps/cli @typescript-eslint/eslint-plugin @typescript-eslint/parser @vitejs/plugin-vue eslint eslint-config-standard eslint-plugin-import eslint-plugin-n eslint-plugin-promise eslint-plugin-vue husky sass typescript unocss unplugin-auto-import unplugin-vue-components vite vue-tsc
 ```
 
