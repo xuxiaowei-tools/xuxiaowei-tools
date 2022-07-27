@@ -6,12 +6,12 @@ import { createPinia } from 'pinia'
 import piniaPluginPersist from 'pinia-plugin-persist'
 import 'uno.css'
 
-const store = createPinia()
-store.use(piniaPluginPersist)
+const pinia = createPinia()
+pinia.use(piniaPluginPersist)
 
 const app = createApp(App)
 
-app.use(store)
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')

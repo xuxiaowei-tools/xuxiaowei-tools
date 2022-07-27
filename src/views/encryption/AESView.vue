@@ -16,7 +16,7 @@
 
   <br>
 
-  <el-row justify="center" gutter="20">
+  <el-row justify="center" :gutter="20">
     <el-col :span="11">
       <el-select v-model="mode" placeholder="请选择模式" class="w-100%">
         <el-option v-for="item in modeOptions" :key="item.value" :label="item.label" :value="item.value"/>
@@ -31,7 +31,7 @@
 
   <br>
 
-  <el-row justify="center" gutter="20">
+  <el-row justify="center" :gutter="20">
     <el-col :span="type === '1' ? 22 : 11">
       <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板">
         <template #prepend>
@@ -60,7 +60,7 @@
 
   <br>
 
-  <el-row class="button-row" justify="center" gutter="20">
+  <el-row class="button-row" justify="center" :gutter="20">
     <el-col :span="11">
       <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
@@ -74,7 +74,7 @@
 
   <br>
 
-  <el-row class="text-row" justify="center" gutter="20">
+  <el-row class="text-row" justify="center" :gutter="20">
     <el-col :span="11">
       <el-input v-model="originalText" class="originalText-input" placeholder="原文" type="textarea" @dblclick="dblclick"
                 rows="15" data-dblclick="原文已复制到剪贴板"/>
