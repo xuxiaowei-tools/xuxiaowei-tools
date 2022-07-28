@@ -20,11 +20,11 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="11">
-      <el-input v-model="publicKey" class="originalText-input" placeholder="原文" type="textarea" @dblclick="dblclick"
+      <el-input v-model="publicKey" class="originalText-input" placeholder="请输入RSA公钥" type="textarea" @dblclick="dblclick"
                 rows="10" data-dblclick="RSA公钥已复制到剪贴板"/>
     </el-col>
     <el-col :span="11">
-      <el-input v-model="privateKey" class="ciphertext-input" placeholder="密文" type="textarea" @dblclick="dblclick"
+      <el-input v-model="privateKey" class="ciphertext-input" placeholder="请输入RSA私钥" type="textarea" @dblclick="dblclick"
                 rows="10" data-dblclick="RSA私钥已复制到剪贴板"/>
     </el-col>
   </el-row>
@@ -33,14 +33,7 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="11">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-button @click="publicKeyEncrypt" class="encrypt-button w-100%">公钥加密</el-button>
-        </el-col>
-        <el-col :span="12">
-          <el-button @click="publicKeyDecrypt" class="decrypt-button w-100%">公钥解密</el-button>
-        </el-col>
-      </el-row>
+      <el-button @click="publicKeyEncrypt" class="encrypt-button w-100%">公钥加密</el-button>
     </el-col>
     <el-col :span="11">
       <el-row :gutter="20">
@@ -81,33 +74,88 @@ import rsaStore from '../../store/rsa'
 const { toClipboard } = useClipboard()
 
 // 原文
-const originalText = ref('my message')
+const originalText = ref<string|null>('my message')
 // 密文
 const ciphertext = ref('')
 
 // 公钥加密
 const publicKeyEncrypt = () => {
+  if (publicKey.value === null || publicKey.value === '') {
+    ElMessage.error('公钥加密时，公钥不能为空！')
+    return
+  }
+
+  if (originalText.value === null || originalText.value === '') {
+    ElMessage.error('公钥加密时，原文不能为空！')
+    return
+  }
+
   JsEncrypt.prototype.setPrivateKey('') // 清空私钥
   JsEncrypt.prototype.setPublicKey(publicKey.value)
-  ciphertext.value = JsEncrypt.prototype.encrypt(originalText.value).toString()
+  const encrypt = JsEncrypt.prototype.encrypt(originalText.value)
+
+  if (encrypt === false) {
+    ElMessage.error('公钥加密失败，请检查公钥是否正确！')
+    return
+  }
+
+  ciphertext.value = encrypt
   ElMessage({ message: '公钥加密完成', type: 'success' })
-}
-
-// 公钥解密
-const publicKeyDecrypt = () => {
-
 }
 
 // 私钥加密
 const privateKeyEncrypt = () => {
+  const privateKeyValue = privateKey.value
+  if (privateKeyValue === null || privateKeyValue === '') {
+    ElMessage.error('私钥加密时，私钥不能为空！')
+    return
+  }
 
+  if (originalText.value === null || originalText.value === '') {
+    ElMessage.error('私钥加密时，原文不能为空！')
+    return
+  }
+
+  JsEncrypt.prototype.setPublicKey('') // 清空公钥
+  JsEncrypt.prototype.setPrivateKey(privateKey.value)
+  const encrypt = JsEncrypt.prototype.encrypt(originalText.value)
+
+  if (encrypt === false) {
+    ElMessage.error('私钥加密失败，请检查私钥是否正确！')
+    return
+  }
+
+  ciphertext.value = encrypt
+  ElMessage({ message: '私钥加密完成', type: 'success' })
 }
 
 // 私钥解密
 const privateKeyDecrypt = () => {
+  if (privateKey.value === null || privateKey.value === '') {
+    ElMessage.error('私钥解密时，私钥不能为空！')
+    return
+  }
+
+  if (ciphertext.value === null || ciphertext.value === '') {
+    ElMessage.error('私钥解密时，密文不能为空！')
+    return
+  }
+
   JsEncrypt.prototype.setPublicKey('') // 清空公钥
   JsEncrypt.prototype.setPrivateKey(privateKey.value)
-  originalText.value = JsEncrypt.prototype.decrypt(ciphertext.value)?.toString()
+  const decrypt = JsEncrypt.prototype.decrypt(ciphertext.value)
+
+  if (decrypt === false) {
+    ElMessage.error('私钥解密失败，请检查私钥是否正确！')
+    return
+  }
+
+  if (decrypt === null) {
+    ElMessage.error('私钥解密失败，请检查密文是否正确！')
+    return
+  }
+
+  originalText.value = decrypt
   ElMessage({ message: '私钥解密完成', type: 'success' })
 }
 
