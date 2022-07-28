@@ -19,12 +19,7 @@
 
   <el-row justify="space-evenly">
     <el-col :span="11">
-      <el-input v-model="ipv6" v-if="ipv4 !== ipv6" readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
-        <template #prepend>
-          <span>IP v6</span>
-        </template>
-      </el-input>
-      <el-input v-model="ipv6Non" v-else readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
+      <el-input v-model="ipv6" readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
         <template #prepend>
           <span>IP v6</span>
         </template>
@@ -44,14 +39,25 @@ const { toClipboard } = useClipboard()
 
 const ipv4 = ref('')
 const ipv6 = ref('')
-const ipv6Non = ref('未获取到 IP v6')
 
-ipv4Ipify().then((response: string) => {
-  ipv4.value = response
+// 获取当前网络的ipv4
+ipv4Ipify().then((response: any) => {
+  if (response !== null && response !== '' && response.indexOf('.') > 0) {
+    // ipv4 内容携带 .
+    ipv4.value = response
+  } else {
+    ipv4.value = '未获取到 IP v4'
+  }
 })
 
-ipv6Ipify().then((response: string) => {
-  ipv6.value = response
+// 获取当前网络的ipv6（如果ipv6不存在，则返回ipv4）
+ipv6Ipify().then((response: any) => {
+  if (response !== null && response !== '' && response.indexOf(':') > 0) {
+    // ipv6 内容携带 :
+    ipv6.value = response
+  } else {
+    ipv6.value = '未获取到 IP v6'
+  }
 })
 
 // 双击复制
