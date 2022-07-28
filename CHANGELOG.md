@@ -10,6 +10,18 @@
 4. TimeStamp（时间戳和时间互转）
 5. IdCard（在线随机生成身份证号）
 
+### 🔨 Dependency Upgrades | 依赖项升级
+
+1. 升级依赖 [vue](https://github.com/vuejs/core)
+2. 升级依赖 [@tauri-apps/cli](https://github.com/tauri-apps/tauri)
+3. 升级依赖 [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint)
+4. 升级依赖 [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint)
+5. 升级依赖 [@vitejs/plugin-vue](https://github.com/vitejs/vite)
+6. 升级依赖 [eslint](https://github.com/eslint/eslint)
+7. 升级依赖 [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue)
+8. 升级依赖 [vite](https://github.com/vitejs/vite)
+9. 升级依赖 [vue-tsc](https://github.com/johnsoncodehk/volar)
+
 ### 🔨 Dependency Addition | 依赖项添加
 
 1. [@element-plus/icons-vue](https://github.com/element-plus/element-plus-icons)
