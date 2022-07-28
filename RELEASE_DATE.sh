@@ -8,5 +8,3 @@ fi
 dateTime=`date '+%Y-%m-%d %H:%M:%S'`
 ##echo $dateTime
 echo "{\"date\":\"$dateTime\"}" > ./src/release_date.json
-
-exit
