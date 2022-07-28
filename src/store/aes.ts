@@ -87,6 +87,4 @@ if (aesStoreOld) {
 }
 
 // 注意，在使用时，不用构造方法，直接调用即可
-export {
-  aesStore
-}
+export default aesStore

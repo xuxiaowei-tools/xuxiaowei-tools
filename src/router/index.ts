@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { aesStore } from '../store'
-
-console.log('在路由中测试获取缓存', aesStore.getKey)
 
 const routes: Array<RouteRecordRaw> = [
   {
