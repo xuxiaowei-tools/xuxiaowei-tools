@@ -6,6 +6,8 @@
 
 1. AES 对称性加密（包含：仅秘钥、秘钥+偏移量、选择模式、选择填充方式）
 2. IP（获取当前网络的 IP v4、IP v6）
+3. TimeStamp（时间戳和时间互转）
+4. IdCard（在线随机生成身份证号）
 
 ### 🔨 Dependency Addition | 依赖项添加
 
