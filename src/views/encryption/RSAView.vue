@@ -71,7 +71,8 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import keypair from 'keypair'
+// @ts-ignore
+import jsrsasign from 'jsrsasign'
 import JsEncrypt from 'jsencrypt'
 import { ElMessage } from 'element-plus/es'
 import useClipboard from 'vue-clipboard3'
@@ -86,6 +87,7 @@ const ciphertext = ref('')
 
 // 公钥加密
 const publicKeyEncrypt = () => {
+  JsEncrypt.prototype.setPrivateKey('') // 清空私钥
   JsEncrypt.prototype.setPublicKey(publicKey.value)
   ciphertext.value = JsEncrypt.prototype.encrypt(originalText.value).toString()
   ElMessage({ message: '公钥加密完成', type: 'success' })
@@ -103,6 +105,7 @@ const privateKeyEncrypt = () => {
 
 // 私钥解密
 const privateKeyDecrypt = () => {
+  JsEncrypt.prototype.setPublicKey('') // 清空公钥
   JsEncrypt.prototype.setPrivateKey(privateKey.value)
   originalText.value = JsEncrypt.prototype.decrypt(ciphertext.value)?.toString()
   ElMessage({ message: '私钥解密完成', type: 'success' })
@@ -121,15 +124,19 @@ watch(() => privateKey.value, (newValue, oldValue) => {
 })
 
 // 生成RSA密钥对位数
-const bits = ref(2048)
+const bits = ref(1024)
 const bitsOptions = [
   {
+    value: '512',
+    label: '512 (不推荐)'
+  },
+  {
     value: '1024',
-    label: '1024 (不推荐)'
+    label: '1024 (速度快)'
   },
   {
     value: '2048',
-    label: '2048 (默认)'
+    label: '2048 (速度慢)'
   },
   {
     value: '4096',
@@ -139,10 +146,9 @@ const bitsOptions = [
 
 // 生过密钥对
 const generate = async () => {
-  const pair = keypair({ bits: bits.value }) // 默认 2048
-  publicKey.value = pair.public
-  privateKey.value = pair.private
-  console.log(pair.public)
+  const rsaKeypair = jsrsasign.KEYUTIL.generateKeypair('RSA', bits.value)
+  publicKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.pubKeyObj)
+  privateKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.prvKeyObj, 'PKCS8PRV')
 }
 
 // 双击复制
