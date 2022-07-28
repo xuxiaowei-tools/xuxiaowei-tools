@@ -19,12 +19,7 @@
 
   <el-row justify="space-evenly">
     <el-col :span="11">
-      <el-input v-model="ipv6" v-if="ipv4 !== ipv6" readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
-        <template #prepend>
-          <span>IP v6</span>
-        </template>
-      </el-input>
-      <el-input v-model="ipv6Non" v-else readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
+      <el-input v-model="ipv6Show" readonly @dblclick="dblclick" data-dblclick="IP v6 已复制到剪贴板">
         <template #prepend>
           <span>IP v6</span>
         </template>
@@ -35,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import useClipboard from 'vue-clipboard3'
 import { ipv4Ipify, ipv6Ipify } from '../api/ipify'
@@ -44,7 +39,23 @@ const { toClipboard } = useClipboard()
 
 const ipv4 = ref('')
 const ipv6 = ref('')
-const ipv6Non = ref('未获取到 IP v6')
+const ipv6Show = ref('')
+
+watch(() => ipv4.value, (newValue, oldValue) => {
+  ipv6ShowFun()
+})
+
+watch(() => ipv6.value, (newValue, oldValue) => {
+  ipv6ShowFun()
+})
+
+const ipv6ShowFun = () => {
+  if (ipv4.value === ipv6.value) {
+    ipv6Show.value = '未获取到 IP v6'
+  } else {
+    ipv6Show.value = ipv6.value
+  }
+}
 
 ipv4Ipify().then((response: string) => {
   ipv4.value = response
