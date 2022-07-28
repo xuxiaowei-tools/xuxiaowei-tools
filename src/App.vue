@@ -2,6 +2,11 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 // import HelloWorld from './components/HelloWorld.vue'
+import { releaseDate } from './utils/release'
+
+if (process.env.NODE_ENV !== 'development' && releaseDate.date != null && releaseDate.date !== '') {
+  console.log('项目发布日期：', releaseDate.date)
+}
 
 const host = location.host
 

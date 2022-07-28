@@ -26,3 +26,4 @@ dist-ssr
 /.eslintcache
 /auto-imports.d.ts
 /components.d.ts
+/src/release_date.json
