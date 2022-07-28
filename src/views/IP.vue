@@ -42,25 +42,29 @@ const ipv6 = ref('')
 const ipv6Show = ref('')
 
 watch(() => ipv4.value, (newValue, oldValue) => {
+  // 监听 ipv4 发生改变时执行 ipv6 显示
   ipv6ShowFun()
 })
 
 watch(() => ipv6.value, (newValue, oldValue) => {
+  // 监听 ipv6 发生改变时执行 ipv6 显示
   ipv6ShowFun()
 })
 
 const ipv6ShowFun = () => {
-  if (ipv4.value === ipv6.value) {
+  if (ipv4.value === ipv6.value) { // ipv4 与 ipv6 内容一致时，说明不存在 ipv6
     ipv6Show.value = '未获取到 IP v6'
   } else {
     ipv6Show.value = ipv6.value
   }
 }
 
+// 获取当前网络的ipv4
 ipv4Ipify().then((response: string) => {
   ipv4.value = response
 })
 
+// 获取当前网络的ipv6（如果ipv6不存在，则返回ipv4）
 ipv6Ipify().then((response: string) => {
   ipv6.value = response
 })
