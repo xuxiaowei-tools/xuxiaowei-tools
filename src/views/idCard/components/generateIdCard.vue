@@ -43,7 +43,12 @@
       <el-scrollbar max-height="400px" class="px-30px py-20px">
         <p v-for="item in showIdCardList" :key="item" class="scrollbar-demo-item">{{ item }}</p>
       </el-scrollbar>
+      <div class="text-14px px-20px lh-30px pb-10px">
+        <span class="text-#996666 text-16px">身份证号码生成器说明：</span><br />
+        身份证号码仅用于软件开发中的测试，否则后果自付。
     </div>
+    </div>
+
     <!-- 时间戳转时间 -->
   </div>
 </template>
