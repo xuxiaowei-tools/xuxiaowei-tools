@@ -1,7 +1,7 @@
 <template>
-  <div class="ma max-w-960px min-h-500px p-10px">
+  <div class="ma max-w-960px min-h-400px p-10px mt-60px">
     <div class="w-full h-full b-color-#e5e5e5 b box-border  rounded-3px">
-      <div class="h-40px bg-#725172 lh-40px pl-20px rounded-t-3px">在线随机身份证号码生成器</div>
+      <div class="h-40px bg-#B38A4D lh-40px pl-20px rounded-t-3px">在线随机身份证号码生成器</div>
       <!-- <div class="lh-60px">随机身份证号码生成</div> -->
       <div class="flex justify-start lh-30px py-10px px-10px mt-16px">
         <div class="w-120px block text-right"><span>出生地：</span></div>
@@ -40,7 +40,7 @@
         </el-select>
       </div>
       <el-button class="mt-10px flex ma" :icon="Pointer" @click="generateBtn">生成</el-button>
-      <el-scrollbar height="400px" class="px-30px py-20px">
+      <el-scrollbar max-height="400px" class="px-30px py-20px">
         <p v-for="item in showIdCardList" :key="item" class="scrollbar-demo-item">{{ item }}</p>
       </el-scrollbar>
     </div>
