@@ -6,8 +6,8 @@
       <!-- <div class="px-10px mytab cursor-pointer" :class="checked === 3 ? 'bg-#deb887' : ''" @click="check(3)">还有啥</div> -->
     </div>
   </div>
-  <generateIdCard v-show="checked === 1" />
-  <changeCardNum v-show="checked === 2" />
+  <generateIdCard v-if="checked === 1" />
+  <changeCardNum v-if="checked === 2" />
 </template>
 
 <script lang="ts" setup>
