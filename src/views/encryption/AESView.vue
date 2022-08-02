@@ -119,6 +119,15 @@ watch(() => type.value, (newValue, oldValue) => {
 const mode = ref(aesStore.getMode)
 watch(() => mode.value, (newValue, oldValue) => {
   aesStore.setMode(newValue)
+
+  // 切换模式时，改变 URL 参数
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.mode = newValue
+  const locationQueryRaw = ref<LocationQueryRaw>(query)
+
+  router.replace({
+    query: locationQueryRaw.value
+  })
 })
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const modeOptions = [
@@ -148,6 +157,15 @@ const modeOptions = [
 const padding = ref(aesStore.getPadding)
 watch(() => padding.value, (newValue, oldValue) => {
   aesStore.setPadding(newValue)
+
+  // 切换填充方案时，改变 URL 参数
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.padding = newValue
+  const locationQueryRaw = ref<LocationQueryRaw>(query)
+
+  router.replace({
+    query: locationQueryRaw.value
+  })
 })
 // https://github.com/brix/crypto-js/blob/develop/docs/QuickStartGuide.wiki#block-modes-and-padding
 const paddingOptions = [
@@ -470,6 +488,48 @@ const getEnc = (enc: string) => {
       return CryptoJS.enc.Base64url
   }
 }
+
+router.isReady().then(() => {
+  const query = JSON.parse(JSON.stringify(route.query))
+  const queryMode = query.mode
+  const queryPadding = query.padding
+
+  if (queryMode !== undefined && queryMode !== mode.value) {
+    // URL 参数优先级高于一切
+    mode.value = queryMode
+  }
+
+  if (queryPadding !== undefined && queryPadding !== padding.value) {
+    // URL 参数优先级高于一切
+    padding.value = queryPadding
+  }
+
+  // 模式：合法性检查
+  const legalMode = ref<boolean>(false)
+  for (const i in modeOptions) {
+    const value = modeOptions[i].value
+    if (mode.value === value) {
+      legalMode.value = true
+      break
+    }
+  }
+  if (!legalMode.value) {
+    mode.value = aesStore.defaultMode
+  }
+
+  // 填充方案：合法性检查
+  const legalPadding = ref<boolean>(false)
+  for (const i in paddingOptions) {
+    const value = paddingOptions[i].value
+    if (padding.value === value) {
+      legalPadding.value = true
+      break
+    }
+  }
+  if (!legalPadding.value) {
+    padding.value = aesStore.defaultPadding
+  }
+})
 
 // 双击复制
 const dblclick = async (e: any) => {
