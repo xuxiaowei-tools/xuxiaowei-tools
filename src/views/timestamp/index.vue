@@ -1,5 +1,5 @@
 <template>
-  <div class="w-960px ma px-30px py-30px mt-50px">
+  <div class="ma max-w-960px px-30px py-30px mt-50px">
     <!-- 时间戳转时间 -->
     <div class="flex justify-center lh-30px color-#333">
       <div class="w-80px block text-right"><span>时间戳：</span></div>
@@ -11,7 +11,7 @@
           </el-select>
         </template>
       </el-input>
-      <el-button @click="changeStr" class="mx-20px">转换</el-button>
+      <el-button @click="changeStr" class="mx-10px">转换</el-button>
       <el-input v-model="outPutValue" class="flex-1"></el-input>
     </div>
 
@@ -23,7 +23,7 @@
           <el-button @click="getNow">现在</el-button>
         </template>
       </el-input>
-      <el-button @click="changeStamp" class="mx-20px">转换</el-button>
+      <el-button @click="changeStamp" class="mx-10px">转换</el-button>
       <el-input v-model="outPutStamp" class="flex-1">
         <template #append>
           <el-select v-model="stampTypeValue" placeholder="Select" style="width: 80px">
