@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "vite --host",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx,.vue --cache --fix",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "RELEASE_DATE && vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
     "tauri:info": "tauri info",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
+    "tauri:build:debug": "tauri build --debug",
     "prepare": "husky install"
   },
   "author": "徐晓伟 <xuxiaowei@xuxiaowei.com.cn>",
@@ -68,6 +69,7 @@
   "devDependencies": {
     "@tauri-apps/cli": "1.0.5",
     "@types/crypto-js": "4.1.1",
+    "@types/node": "18.6.2",
     "@typescript-eslint/eslint-plugin": "5.31.0",
     "@typescript-eslint/parser": "5.31.0",
     "@vitejs/plugin-vue": "3.0.1",

@@ -6,8 +6,10 @@ const aesDefineStore = defineStore('aes', {
   state: () => ({
     key: ref<string>('1234567890ABCDEF'), // AES 秘钥
     iv: ref<string>('abcdefghijklmnop'), // AES 偏移量
-    mode: ref<string>('ECB'), // AES 模式
-    padding: ref<string>('Pkcs7') // AES 填充
+    defaultMode: ref<string>('ECB'), // 默认 AES 模式
+    mode: ref<string>(), // AES 模式
+    defaultPadding: ref<string>('Pkcs7'), // 默认 AES 填充
+    padding: ref<string>() // AES 填充
   }),
   getters: {
     /**
@@ -26,17 +28,19 @@ const aesDefineStore = defineStore('aes', {
     },
     /**
      * AES 模式
+     * 不存在时，使用默认值
      * @param state
      */
     getMode (state) {
-      return state.mode
+      return state.mode === undefined ? state.defaultMode : state.mode
     },
     /**
      * AES 填充
+     * 不存在时，使用默认值
      * @param state
      */
     getPadding (state) {
-      return state.padding
+      return state.padding === undefined ? state.defaultPadding : state.padding
     }
   },
   actions: {
