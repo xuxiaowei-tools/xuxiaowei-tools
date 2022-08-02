@@ -339,6 +339,11 @@ const encrypt = () => {
 
 // 解密
 const decrypt = () => {
+  if (ciphertext.value === '') {
+    ElMessage.error('解密时，密文不能为空！')
+    return
+  }
+
   let bytes
   const keyValue = valueParse(keyEnc.value, key.value)
   try {
@@ -372,9 +377,16 @@ const decrypt = () => {
   }
 
   try {
-    console.log(getEnc(decryptEnc.value))
     originalText.value = bytes.toString(getEnc(decryptEnc.value))
-    ElMessage({ message: '解密完成', type: 'success' })
+    if (originalText.value === '') {
+      if (type.value === '1') {
+        ElMessage({ message: '解密结果为空，请检查秘钥与密文是否正确', type: 'warning' })
+      } else {
+        ElMessage({ message: '解密结果为空，请检查秘钥、偏移量与密文是否正确', type: 'warning' })
+      }
+    } else {
+      ElMessage({ message: '解密完成', type: 'success' })
+    }
   } catch (e) {
     ElMessage.error('解密后转码失败')
     console.error(e)
