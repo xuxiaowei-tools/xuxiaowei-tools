@@ -13,6 +13,7 @@
     "tauri:info": "tauri info",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
+    "tauri:build:debug": "tauri build --debug",
     "prepare": "husky install"
   },
   "author": "徐晓伟 <xuxiaowei@xuxiaowei.com.cn>",
