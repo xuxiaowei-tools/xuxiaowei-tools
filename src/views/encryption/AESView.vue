@@ -18,12 +18,14 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="11">
-      <el-select v-model="mode" placeholder="请选择模式" class="w-100%">
+      <el-input class="input-readonly mode-placeholder" value="模式 mode" readonly></el-input>
+      <el-select v-model="mode" placeholder="请选择模式" class="mode-select">
         <el-option v-for="item in modeOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-col>
     <el-col :span="11">
-      <el-select v-model="padding" placeholder="请选择填充方案" class="w-100%">
+      <el-input class="input-readonly padding-placeholder" value="填充方案 padding" readonly></el-input>
+      <el-select v-model="padding" placeholder="请选择填充方案" class="padding-select">
         <el-option v-for="item in paddingOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-col>
@@ -38,7 +40,7 @@
           <span>秘钥 key</span>
         </template>
         <template #append>
-          <el-select v-model="keyEnc" placeholder="选择秘钥编码">
+          <el-select v-model="keyEnc" placeholder="选择秘钥编码" class="w-100px">
             <el-option v-for="item in keyEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </template>
@@ -50,7 +52,7 @@
           <span>偏移量 iv</span>
         </template>
         <template #append>
-          <el-select v-model="ivEnc" placeholder="选择偏移量编码">
+          <el-select v-model="ivEnc" placeholder="选择偏移量编码" class="w-100px">
             <el-option v-for="item in ivEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </template>
@@ -546,7 +548,58 @@ const dblclick = async (e: any) => {
 
 </script>
 
+<style lang="scss">
+
+// 只能放在无 scoped 的 style 标签中
+.input-readonly .el-input__wrapper,
+.decrypt-enc-select .el-input__wrapper{
+  // 输入框显示禁用颜色
+  background-color: var(--el-fill-color-light);
+}
+
+// 只能放在无 scoped 的 style 标签中
+.mode-placeholder .el-input__wrapper {
+  // 输入框显示宽度
+  width: 94.83px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.padding-placeholder .el-input__wrapper {
+  // 输入框显示宽度
+  width: 155.85px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// 只能放在无 scoped 的 style 标签中
+.mode-placeholder input,
+.padding-placeholder input{
+  // 输入框居中及字体颜色
+  text-align: center;
+  color: var(--el-color-info);
+}
+
+</style>
+
 <style scoped lang="scss">
+
+// 模式提示
+// 填充方案提示
+.mode-placeholder,
+.padding-placeholder {
+  display: inline;
+}
+
+// 模式选择
+.mode-select {
+  width: calc(100% - 94.83px );
+}
+
+// 填充方案选择
+.padding-select {
+  width: calc(100% - 155.85px );
+}
 
 // 按钮行
 .button-row {
