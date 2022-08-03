@@ -68,10 +68,8 @@ import { ref, watch } from 'vue'
 import jsrsasign from 'jsrsasign'
 import JsEncrypt from 'jsencrypt'
 import { ElMessage } from 'element-plus/es'
-import useClipboard from 'vue-clipboard3'
+import dblclick from '../../utils/clipboard'
 import rsaStore from '../../store/rsa'
-
-const { toClipboard } = useClipboard()
 
 // 原文
 const originalText = ref<string|null>('my message')
@@ -197,19 +195,6 @@ const generate = async () => {
   const rsaKeypair = jsrsasign.KEYUTIL.generateKeypair('RSA', bits.value)
   publicKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.pubKeyObj)
   privateKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.prvKeyObj, 'PKCS8PRV')
-}
-
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
-  }
 }
 
 </script>
