@@ -5,23 +5,24 @@
     </el-col>
   </el-row>
 
-  <el-row class="text-center">
-    <el-col :span="22">
-      <el-radio-group v-model="prefix">
-        <el-radio border label="">无</el-radio>
-        <el-radio border :label="bcryptPrefix">{{bcryptPrefix}}}</el-radio>
-      </el-radio-group>
-    </el-col>
-  </el-row>
-
   <br>
 
   <el-row class="button-row" justify="center" :gutter="20">
     <el-col :span="11">
-      <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
+      <el-input v-model="rounds" type="number" placeholder="加盐">
+        <template #prepend>
+          <el-select v-model="prefix" placeholder="选择前缀" class="w-100px">
+            <el-option value="" label="无"/>
+            <el-option :value="bcryptPrefix" :label="bcryptPrefix"/>
+          </el-select>
+        </template>
+        <template #append>
+          <el-button @click="encrypt" class="w-100px">加密</el-button>
+        </template>
+      </el-input>
     </el-col>
     <el-col :span="11">
-      <el-button @click="compare" class="encrypt-button w-100%">比较</el-button>
+      <el-button @click="compare" class="w-100%">比较</el-button>
     </el-col>
   </el-row>
 
@@ -51,6 +52,9 @@ const router = useRouter()
 
 const { toClipboard } = useClipboard()
 
+// 加盐
+const rounds = ref(10)
+
 // 原文
 const originalText = ref('my message')
 
@@ -75,7 +79,8 @@ const bcryptPrefix = ref('{bcrypt}')
 
 // 加密
 const encrypt = () => {
-  const salt = bcryptjs.genSaltSync(10)
+  console.log(rounds.value)
+  const salt = bcryptjs.genSaltSync(Number(rounds.value))
   const hash = bcryptjs.hashSync(originalText.value, salt)
   ciphertext.value = prefix.value === '' ? hash : prefix.value + hash
   ElMessage({ message: '加密完成', type: 'success' })
