@@ -565,11 +565,37 @@ const dblclick = async (e: any) => {
   padding-right: 0;
 }
 
+.mode-placeholder .el-input__wrapper,
+.decrypt-button {
+
+  // 右上角半径：0
+  border-top-right-radius: 0;
+  // 右下角半径：0
+  border-bottom-right-radius: 0;
+}
+
+// 模式选择
+// 填充方式选择
+// 解密编码
+.mode-select .el-input__wrapper,
+.padding-select .el-input__wrapper,
+.decrypt-enc-select .el-input__wrapper {
+  // 左上角半径：0
+  border-top-left-radius: 0;
+  // 左下角半径：0
+  border-bottom-left-radius: 0;
+}
+
 .padding-placeholder .el-input__wrapper {
   // 输入框显示宽度
   width: 155.85px;
   padding-left: 0;
   padding-right: 0;
+
+  // 右上角半径：0
+  border-top-right-radius: 0;
+  // 右下角半径：0
+  border-bottom-right-radius: 0;
 }
 
 // 只能放在无 scoped 的 style 标签中
