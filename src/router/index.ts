@@ -8,6 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
+    path: '/encryption/BCrypt',
+    name: 'BCrypt',
+    component: () => import('../views/encryption/BCryptView.vue')
+  },
+  {
     path: '/encryption/RSA',
     name: 'RSA',
     component: () => import('../views/encryption/RSAView.vue')
