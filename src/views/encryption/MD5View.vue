@@ -33,11 +33,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import CryptoJS from 'crypto-js'
-import { ElMessage } from 'element-plus'
-import useClipboard from 'vue-clipboard3'
 import md5Store from '../../store/md5'
-
-const { toClipboard } = useClipboard()
+import dblclick from '../../utils/clipboard'
 
 // MD5 加密文本
 const md5Text = ref(md5Store.getMd5Text)
@@ -66,19 +63,6 @@ const md5TextEncrypt = () => {
     md5TextCiphertext.value = md5.toString().toUpperCase()
   } else {
     md5TextCiphertext.value = md5.toString()
-  }
-}
-
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
   }
 }
 

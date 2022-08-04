@@ -9,10 +9,20 @@
 
   <el-row class="button-row" justify="center" :gutter="20">
     <el-col :span="11">
-      <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
+      <el-input v-model="rounds" type="number" placeholder="加盐">
+        <template #prepend>
+          <el-select v-model="prefix" placeholder="选择前缀" class="w-100px">
+            <el-option value="" label="无"/>
+            <el-option :value="bcryptPrefix" :label="bcryptPrefix"/>
+          </el-select>
+        </template>
+        <template #append>
+          <el-button @click="encrypt" class="w-100px">加密</el-button>
+        </template>
+      </el-input>
     </el-col>
     <el-col :span="11">
-
+      <el-button @click="compare" class="w-100%">比较</el-button>
     </el-col>
   </el-row>
 
@@ -31,12 +41,17 @@
 </template>
 
 <script setup lang="ts">
-import bcrypt from 'bcryptjs'
+import bcryptjs from 'bcryptjs'
 import { ElMessage } from 'element-plus/es'
-import { ref } from 'vue'
-import useClipboard from 'vue-clipboard3'
+import { ref, watch } from 'vue'
+import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
+import dblclick from '../../utils/clipboard'
 
-const { toClipboard } = useClipboard()
+const route = useRoute()
+const router = useRouter()
+
+// 加盐
+const rounds = ref(10)
 
 // 原文
 const originalText = ref('my message')
@@ -44,24 +59,59 @@ const originalText = ref('my message')
 // 密文
 const ciphertext = ref('')
 
+// 前缀
+const prefix = ref('')
+watch(() => prefix.value, (newValue, oldValue) => {
+  // 切换填充方案时，改变 URL 参数
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.prefix = newValue
+  const locationQueryRaw = ref<LocationQueryRaw>(query)
+
+  router.replace({
+    query: locationQueryRaw.value
+  })
+})
+
+// Security 前缀
+const bcryptPrefix = ref('{bcrypt}')
+
 // 加密
 const encrypt = () => {
-  const salt = bcrypt.genSaltSync(10)
-  ciphertext.value = bcrypt.hashSync(originalText.value, salt)
+  console.log(rounds.value)
+  const salt = bcryptjs.genSaltSync(Number(rounds.value))
+  const hash = bcryptjs.hashSync(originalText.value, salt)
+  ciphertext.value = prefix.value === '' ? hash : prefix.value + hash
+  ElMessage({ message: '加密完成', type: 'success' })
 }
 
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
+const compare = () => {
+  let compare
+  if (ciphertext.value.startsWith(bcryptPrefix.value)) {
+    compare = bcryptjs.compareSync(originalText.value, ciphertext.value.substring(bcryptPrefix.value.length))
+  } else {
+    compare = bcryptjs.compareSync(originalText.value, ciphertext.value)
+  }
+  if (compare) {
+    ElMessage({ message: '密码与原文匹配', type: 'success' })
+  } else {
+    ElMessage.error('密码与原文不匹配')
   }
 }
+
+router.isReady().then(() => {
+  const query = JSON.parse(JSON.stringify(route.query))
+  const queryPrefix = query.prefix
+
+  if (queryPrefix !== undefined) {
+    prefix.value = queryPrefix
+  }
+
+  const prefixList = ref<string[]>(['', bcryptPrefix.value])
+  if (prefixList.value.indexOf(prefix.value) === -1) {
+    prefix.value = ''
+  }
+})
+
 </script>
 
 <style scoped>
