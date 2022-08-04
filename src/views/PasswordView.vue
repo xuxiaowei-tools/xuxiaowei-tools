@@ -204,8 +204,11 @@ const exec = () => {
     })
 
     if (tmp === '') {
-      ElMessage({ message: '条件不合法', type: 'warning' })
-      return
+      ElMessage({ message: '随机字符串、长度不合法', type: 'warning' })
+      break
+    } else if (tmp.length !== Number(passwordLength.value)) {
+      ElMessage({ message: '随机字符串、长度不合法', type: 'warning' })
+      break
     }
 
     dataList.value.push(tmp)
