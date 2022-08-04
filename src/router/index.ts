@@ -8,6 +8,16 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
+    path: '/password',
+    name: 'Password',
+    component: () => import('../views/PasswordView.vue')
+  },
+  {
+    path: '/uuid',
+    name: 'UUID',
+    component: () => import('../views/UUIDView.vue')
+  },
+  {
     path: '/encryption/BCrypt',
     name: 'BCrypt',
     component: () => import('../views/encryption/BCryptView.vue')
@@ -35,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/ip',
     name: 'IP',
-    component: () => import('../views/IP.vue')
+    component: () => import('../views/IPView.vue')
   },
   {
     path: '/idCard',

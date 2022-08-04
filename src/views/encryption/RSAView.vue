@@ -67,11 +67,13 @@ import { ref, watch } from 'vue'
 // @ts-ignore
 import jsrsasign from 'jsrsasign'
 import JsEncrypt from 'jsencrypt'
-import { ElMessage } from 'element-plus/es'
-import useClipboard from 'vue-clipboard3'
+import { ElMessage, ElMessageBox } from 'element-plus/es'
+
+import dblclick from '../../utils/clipboard'
 import rsaStore from '../../store/rsa'
 
-const { toClipboard } = useClipboard()
+// 是否忽略警告
+const warning = ref<boolean>(false)
 
 // 原文
 const originalText = ref<string|null>('my message')
@@ -175,41 +177,49 @@ watch(() => privateKey.value, (newValue, oldValue) => {
 const bits = ref(1024)
 const bitsOptions = [
   {
-    value: '512',
+    value: 512,
     label: '512 (不推荐)'
   },
   {
-    value: '1024',
+    value: 1024,
     label: '1024 (速度快)'
   },
   {
-    value: '2048',
+    value: 2048,
     label: '2048 (速度慢)'
   },
   {
-    value: '4096',
+    value: 4096,
     label: '4096 (极慢)'
   }
 ]
 
 // 生过密钥对
 const generate = async () => {
+  if (warning.value) {
+    exec()
+  } else {
+    if (bits.value === 2048 || bits.value === 4096) {
+      ElMessageBox.confirm(`纯 JavaScript 运算，生成 ${bits.value} 位 RSA 非对称秘钥对速度${bits.value === 2048 ? '慢' : '极慢'}，可能会导致浏览器卡死，是否继续？`, '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        warning.value = true
+        exec()
+      }).catch(() => {
+
+      })
+    } else {
+      exec()
+    }
+  }
+}
+
+const exec = () => {
   const rsaKeypair = jsrsasign.KEYUTIL.generateKeypair('RSA', bits.value)
   publicKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.pubKeyObj)
   privateKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.prvKeyObj, 'PKCS8PRV')
-}
-
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
-  }
 }
 
 </script>

@@ -44,13 +44,11 @@
 import bcryptjs from 'bcryptjs'
 import { ElMessage } from 'element-plus/es'
 import { ref, watch } from 'vue'
-import useClipboard from 'vue-clipboard3'
 import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
+import dblclick from '../../utils/clipboard'
 
 const route = useRoute()
 const router = useRouter()
-
-const { toClipboard } = useClipboard()
 
 // 加盐
 const rounds = ref(10)
@@ -79,7 +77,6 @@ const bcryptPrefix = ref('{bcrypt}')
 
 // 加密
 const encrypt = () => {
-  console.log(rounds.value)
   const salt = bcryptjs.genSaltSync(Number(rounds.value))
   const hash = bcryptjs.hashSync(originalText.value, salt)
   ciphertext.value = prefix.value === '' ? hash : prefix.value + hash
@@ -114,18 +111,6 @@ router.isReady().then(() => {
   }
 })
 
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
-  }
-}
 </script>
 
 <style scoped>

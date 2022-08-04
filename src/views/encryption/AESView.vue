@@ -5,6 +5,8 @@
     </el-col>
   </el-row>
 
+  <br>
+
   <el-row class="text-center">
     <el-col :span="22">
       <el-radio-group v-model="type">
@@ -93,13 +95,11 @@ import { ref, watch } from 'vue'
 import { LocationQueryRaw, useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import CryptoJS from 'crypto-js'
-import useClipboard from 'vue-clipboard3'
+import dblclick from '../../utils/clipboard'
 import aesStore from '../../store/aes'
 
 const route = useRoute()
 const router = useRouter()
-
-const { toClipboard } = useClipboard()
 
 // 类型
 // 1：仅秘钥 key
@@ -532,19 +532,6 @@ router.isReady().then(() => {
     padding.value = aesStore.defaultPadding
   }
 })
-
-// 双击复制
-const dblclick = async (e: any) => {
-  try {
-    await toClipboard(e.target.value)
-    ElMessage({
-      message: e.target.dataset.dblclick,
-      type: 'success'
-    })
-  } catch (e) {
-    console.error(e)
-  }
-}
 
 </script>
 
