@@ -12,7 +12,7 @@
       <el-switch v-model="upperCase" active-text="大写字母" inactive-text="小写字母"/>
     </el-col>
     <el-col :span="11">
-      <el-input v-model="length" type="number" :min="lengthMin" :max="lengthMax" placeholder="选择截取长度">
+      <el-input v-model="subLength" type="number" placeholder="选择截取长度">
         <template #prepend>
           <span>长度</span>
         </template>
@@ -65,31 +65,38 @@ watch(() => upperCase.value, (newValue, oldValue) => {
 })
 
 // 长度
-const length = ref<number | undefined>(uuidStore.getLength)
+const subLength = ref<number | undefined>(uuidStore.getSubLength)
 // 最小长度
-const lengthMin = ref<number>(1)
+const subLengthMin = ref<number>(1)
 // 最大长度
-const lengthMax = ref<number>(36)
-watch(() => length.value, (newValue, oldValue) => {
-  uuidStore.setLength(length.value)
+const subLengthMax = ref<number>(36)
+watch(() => subLength.value, (newValue, oldValue) => {
   if (newValue !== undefined) {
-    if (newValue < lengthMin.value) {
-      ElMessage({ message: `长度不能小于 ${lengthMin.value}`, type: 'warning' })
-    } else if (newValue > lengthMax.value) {
-      ElMessage({ message: `长度不能大于 ${lengthMax.value}`, type: 'warning' })
+    if (newValue < subLengthMin.value) {
+      ElMessage({ message: `长度不能小于 ${subLengthMin.value}`, type: 'warning' })
+
+      subLength.value = subLengthMin.value
+      uuidStore.setSubLength(subLengthMin.value)
+    } else if (newValue > subLengthMax.value) {
+      ElMessage({ message: `长度不能大于 ${subLengthMax.value}`, type: 'warning' })
+
+      subLength.value = subLengthMax.value
+      uuidStore.setSubLength(subLengthMax.value)
+    } else {
+      uuidStore.setSubLength(newValue)
     }
   }
 })
 
 // 长度截取
 const substring = (data: string) => {
-  if (length.value !== undefined) {
-    if (length.value < lengthMin.value) {
+  if (subLength.value !== undefined) {
+    if (subLength.value < subLengthMin.value) {
       // 长度小于最小长度，不做处理
-    } else if (length.value > lengthMax.value) {
+    } else if (subLength.value > subLengthMax.value) {
       // 长度大于最大长度，不做处理
     } else {
-      return data.substring(0, length.value)
+      return data.substring(0, subLength.value)
     }
   }
   return data
