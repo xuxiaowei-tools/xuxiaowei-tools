@@ -34,22 +34,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { dblclickDiv } from '../utils/clipboard'
+import { ElMessage } from 'element-plus'
+import uuidStore from '../store/uuid'
 
 // 分隔符
-const separator = ref<boolean>(true)
+const separator = ref<boolean>(uuidStore.getSeparator)
+watch(() => separator.value, (newValue, oldValue) => {
+  uuidStore.setSeparator(newValue)
+})
 
 // 数量
-const num = ref<number>(5)
+const num = ref<number|string>(uuidStore.getNum)
+watch(() => num.value, (newValue, oldValue) => {
+  uuidStore.setNum(newValue)
+})
 
 // 数据
 const dataList = ref<string[]>([])
 
 const generate = () => {
+  if (num.value === '') {
+    ElMessage({ message: '生成数量不能为空', type: 'warning' })
+    return
+  }
+
   // 清空数据
   dataList.value = []
+
   // 循环添加
   for (let i = 0; i < num.value; i++) {
     if (separator.value) {
