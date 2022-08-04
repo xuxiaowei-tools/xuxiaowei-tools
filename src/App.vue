@@ -50,6 +50,8 @@ const host = location.host
     <el-col :span="22" style="text-align: center">
       <router-link to="/">Home</router-link>
       <el-divider direction="vertical" />
+      <router-link to="/uuid">UUID</router-link>
+      <el-divider direction="vertical" />
       <router-link to="/encryption/BCrypt">BCrypt</router-link>
       <el-divider direction="vertical" />
       <router-link to="/encryption/RSA">RSA</router-link>
