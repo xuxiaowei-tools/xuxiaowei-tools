@@ -12,7 +12,11 @@
       <el-switch v-model="upperCase" active-text="大写字母" inactive-text="小写字母"/>
     </el-col>
     <el-col :span="11">
-
+      <el-input v-model="length" type="number" :min="lengthMin" :max="lengthMax" placeholder="选择截取长度">
+        <template #prepend>
+          <span>长度</span>
+        </template>
+      </el-input>
     </el-col>
   </el-row>
 
@@ -60,6 +64,37 @@ watch(() => upperCase.value, (newValue, oldValue) => {
   uuidStore.setUpperCase(newValue)
 })
 
+// 长度
+const length = ref<number | undefined>(uuidStore.getLength)
+// 最小长度
+const lengthMin = ref<number>(1)
+// 最大长度
+const lengthMax = ref<number>(36)
+watch(() => length.value, (newValue, oldValue) => {
+  uuidStore.setLength(length.value)
+  if (newValue !== undefined) {
+    if (newValue < lengthMin.value) {
+      ElMessage({ message: `长度不能小于 ${lengthMin.value}`, type: 'warning' })
+    } else if (newValue > lengthMax.value) {
+      ElMessage({ message: `长度不能大于 ${lengthMax.value}`, type: 'warning' })
+    }
+  }
+})
+
+// 长度截取
+const substring = (data: string) => {
+  if (length.value !== undefined) {
+    if (length.value < lengthMin.value) {
+      // 长度小于最小长度，不做处理
+    } else if (length.value > lengthMax.value) {
+      // 长度大于最大长度，不做处理
+    } else {
+      return data.substring(0, length.value)
+    }
+  }
+  return data
+}
+
 // 分隔符
 const separator = ref<boolean>(uuidStore.getSeparator)
 watch(() => separator.value, (newValue, oldValue) => {
@@ -88,10 +123,10 @@ const generate = () => {
   for (let i = 0; i < num.value; i++) {
     if (separator.value) {
       // 包含分隔符
-      dataList.value.push(uuidv4())
+      dataList.value.push(substring(uuidv4()))
     } else {
       // 不包含分隔符
-      dataList.value.push(uuidv4().replaceAll('-', ''))
+      dataList.value.push(substring(uuidv4().replaceAll('-', '')))
     }
   }
 }

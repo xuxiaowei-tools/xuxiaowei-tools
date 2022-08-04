@@ -6,7 +6,8 @@ const uuidDefineStore = defineStore('uuid', {
   state: () => ({
     num: ref<number | string>(5), // 生成数量
     separator: ref<boolean>(true), // 分隔符
-    upperCase: ref<boolean>(false) // 转大写
+    upperCase: ref<boolean>(false), // 转大写
+    length: ref<number | undefined>() // 长度
   }),
   getters: {
     /**
@@ -29,6 +30,13 @@ const uuidDefineStore = defineStore('uuid', {
      */
     getUpperCase (state) {
       return state.upperCase
+    },
+    /**
+     * 长度
+     * @param state
+     */
+    getLength (state) {
+      return state.length
     }
   },
   actions: {
@@ -52,6 +60,13 @@ const uuidDefineStore = defineStore('uuid', {
      */
     setUpperCase (upperCase: boolean) {
       this.upperCase = upperCase
+    },
+    /**
+     * 长度
+     * @param length
+     */
+    setLength (length: number | undefined) {
+      this.length = length
     }
   }
 })
