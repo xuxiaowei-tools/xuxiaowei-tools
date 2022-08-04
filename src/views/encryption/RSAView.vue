@@ -1,6 +1,6 @@
 <template>
   <el-row justify="center">
-    <el-col :span="22" style="text-align: center">
+    <el-col :span="22" class="text-center">
       <h1>RSA 非对称性加密</h1>
     </el-col>
   </el-row>
