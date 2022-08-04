@@ -7,16 +7,16 @@
 
   <br>
 
-  <el-row justify="center">
-    <el-col :span="11">
-      <el-switch v-model="upperCase" active-text="大写字母" inactive-text="小写字母"/>
-    </el-col>
+  <el-row justify="center" :gutter="40">
     <el-col :span="11">
       <el-input v-model="subLength" type="number" placeholder="选择截取长度">
         <template #prepend>
           <span>长度</span>
         </template>
       </el-input>
+    </el-col>
+    <el-col :span="11">
+      <el-switch v-model="upperCase" active-text="大写字母" inactive-text="小写字母"/>
     </el-col>
   </el-row>
 
