@@ -71,7 +71,8 @@ const subLengthMin = ref<number>(1)
 // 最大长度
 const subLengthMax = ref<number>(36)
 watch(() => subLength.value, (newValue, oldValue) => {
-  if (newValue !== undefined) {
+  // @ts-ignore
+  if (newValue !== undefined && newValue !== '') {
     if (newValue < subLengthMin.value) {
       ElMessage({ message: `长度不能小于 ${subLengthMin.value}`, type: 'warning' })
 
