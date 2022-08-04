@@ -9,7 +9,7 @@ build:
       - node_modules/
   script:
     - npm install
-    - npm run build:linux
+    - npm run build
   artifacts:
     paths:
       - dist
