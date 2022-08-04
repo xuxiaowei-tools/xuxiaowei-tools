@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <el-row justify="space-evenly">
+    <h1>AboutView.vue</h1>
+  </el-row>
 </template>
 
 <script setup lang="ts">
