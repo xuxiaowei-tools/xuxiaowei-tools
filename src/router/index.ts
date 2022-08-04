@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/ip',
     name: 'IP',
-    component: () => import('../views/IP.vue')
+    component: () => import('../views/IPView.vue')
   },
   {
     path: '/idCard',
