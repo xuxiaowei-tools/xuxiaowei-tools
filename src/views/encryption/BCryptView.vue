@@ -77,7 +77,6 @@ const bcryptPrefix = ref('{bcrypt}')
 
 // 加密
 const encrypt = () => {
-  console.log(rounds.value)
   const salt = bcryptjs.genSaltSync(Number(rounds.value))
   const hash = bcryptjs.hashSync(originalText.value, salt)
   ciphertext.value = prefix.value === '' ? hash : prefix.value + hash

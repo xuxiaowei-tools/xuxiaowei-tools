@@ -28,8 +28,6 @@ const randomUtils = (length: number, options: any) => {
       const tmp = (typeof options.numbers === 'string') ? options.numbers : NUMBERS
       chars += tmp
 
-      console.log('数字')
-
       length--
       result += tmp[Math.floor(Math.random() * tmp.length)] // 包含数字时，最少有一个
     }

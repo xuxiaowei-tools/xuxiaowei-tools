@@ -89,10 +89,14 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { ElMessage } from 'element-plus/es'
+import { ElMessage, ElMessageBox } from 'element-plus/es'
+
 import randomUtils from '../utils/random-utils'
 import { dblclickDiv } from '../utils/clipboard'
 import passwordStore from '../store/password'
+
+// 是否忽略警告
+const warning = ref<boolean>(false)
 
 // 数字
 const numbers = ref<string>(passwordStore.getNumbers)
@@ -165,7 +169,29 @@ const generate = () => {
     return
   }
 
-  // 清空数据
+  if (warning.value) {
+    exec()
+  } else {
+    const tmp = 10000
+    if (num.value > tmp) {
+      ElMessageBox.confirm(`纯 JavaScript 运算，生成数量超过 ${tmp}，可能会导致浏览器卡死，是否继续？`, '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        warning.value = true
+        exec()
+      }).catch(() => {
+
+      })
+    } else {
+      exec()
+    }
+  }
+}
+
+const exec = () => {
+// 清空数据
   dataList.value = []
 
   // 循环添加

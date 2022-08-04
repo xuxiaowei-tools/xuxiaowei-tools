@@ -54,9 +54,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
 import { dblclickDiv } from '../utils/clipboard'
-import { ElMessage } from 'element-plus'
 import uuidStore from '../store/uuid'
+
+// 是否忽略警告
+const warning = ref<boolean>(false)
 
 // 转大写
 const upperCase = ref<boolean>(uuidStore.getUpperCase)
@@ -124,6 +128,28 @@ const generate = () => {
     return
   }
 
+  if (warning.value) {
+    exec()
+  } else {
+    const tmp = 10000
+    if (num.value > tmp) {
+      ElMessageBox.confirm(`纯 JavaScript 运算，生成数量超过 ${tmp}，可能会导致浏览器卡死，是否继续？`, '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        warning.value = true
+        exec()
+      }).catch(() => {
+
+      })
+    } else {
+      exec()
+    }
+  }
+}
+
+const exec = () => {
   // 清空数据
   dataList.value = []
 
