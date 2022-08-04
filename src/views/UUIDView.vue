@@ -8,6 +8,17 @@
   <br>
 
   <el-row justify="center">
+    <el-col :span="11">
+      <el-switch v-model="upperCase" active-text="大写字母" inactive-text="小写字母"/>
+    </el-col>
+    <el-col :span="11">
+
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center">
     <el-col :span="22">
       <el-input v-model="num" placeholder="请输入生成的个数">
         <template #prepend>
@@ -27,7 +38,10 @@
 
   <el-row class="text-center">
     <el-col :span="22" v-for="data in dataList" :key="data">
-      <div class="uuid" @dblclick="dblclickDiv" data-dblclick="已复制到剪贴板">{{data}}</div>
+      <div class="uuid" @dblclick="dblclickDiv" data-dblclick="已复制到剪贴板">
+        <!-- 转大写 -->
+        {{ upperCase ? data.toUpperCase() : data }}
+      </div>
     </el-col>
   </el-row>
 
@@ -40,6 +54,12 @@ import { dblclickDiv } from '../utils/clipboard'
 import { ElMessage } from 'element-plus'
 import uuidStore from '../store/uuid'
 
+// 转大写
+const upperCase = ref<boolean>(uuidStore.getUpperCase)
+watch(() => upperCase.value, (newValue, oldValue) => {
+  uuidStore.setUpperCase(newValue)
+})
+
 // 分隔符
 const separator = ref<boolean>(uuidStore.getSeparator)
 watch(() => separator.value, (newValue, oldValue) => {
@@ -47,7 +67,7 @@ watch(() => separator.value, (newValue, oldValue) => {
 })
 
 // 数量
-const num = ref<number|string>(uuidStore.getNum)
+const num = ref<number | string>(uuidStore.getNum)
 watch(() => num.value, (newValue, oldValue) => {
   uuidStore.setNum(newValue)
 })

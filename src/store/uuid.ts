@@ -4,8 +4,9 @@ import { createPinia, defineStore } from 'pinia'
 // 不能直接导出使用（需要设置订阅修改$subscribe、自定义获取数据$state的方法）
 const uuidDefineStore = defineStore('uuid', {
   state: () => ({
-    num: ref<number|string>(5), // 生成数量
-    separator: ref<boolean>(true) // 分隔符
+    num: ref<number | string>(5), // 生成数量
+    separator: ref<boolean>(true), // 分隔符
+    upperCase: ref<boolean>(false) // 转大写
   }),
   getters: {
     /**
@@ -21,6 +22,13 @@ const uuidDefineStore = defineStore('uuid', {
      */
     getSeparator (state) {
       return state.separator
+    },
+    /**
+     * 转大写
+     * @param state
+     */
+    getUpperCase (state) {
+      return state.upperCase
     }
   },
   actions: {
@@ -28,7 +36,7 @@ const uuidDefineStore = defineStore('uuid', {
      * 生成数量
      * @param num
      */
-    setNum (num: number|string) {
+    setNum (num: number | string) {
       this.num = num
     },
     /**
@@ -37,6 +45,13 @@ const uuidDefineStore = defineStore('uuid', {
      */
     setSeparator (separator: boolean) {
       this.separator = separator
+    },
+    /**
+     * 转大写
+     * @param upperCase
+     */
+    setUpperCase (upperCase: boolean) {
+      this.upperCase = upperCase
     }
   }
 })
