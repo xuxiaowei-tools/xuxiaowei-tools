@@ -62,6 +62,7 @@
     "element-plus": "2.2.11",
     "jsencrypt": "3.2.1",
     "jsrsasign": "10.5.26",
+    "jwt-decode": "3.1.2",
     "pinia": "2.0.17",
     "uuid": "8.3.2",
     "vue": "3.2.37",

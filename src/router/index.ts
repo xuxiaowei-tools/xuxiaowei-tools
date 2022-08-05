@@ -33,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/encryption/AESView.vue')
   },
   {
+    path: '/encryption/JWT',
+    name: 'JWT',
+    component: () => import('../views/encryption/JWTView.vue')
+  },
+  {
     path: '/encryption/MD5',
     name: 'MD5',
     component: () => import('../views/encryption/MD5View.vue')
