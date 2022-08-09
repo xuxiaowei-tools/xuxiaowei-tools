@@ -173,8 +173,37 @@ watch(() => privateKey.value, (newValue, oldValue) => {
   rsaStore.setPrivateKey(newValue)
 })
 
+// 申请 Notification
+const applyNotification = (bitsValue: number) => {
+  if (bitsValue === 4096) { // 4096 位生成时间特别长，增加 Notification 通知
+    if (!('Notification' in window)) { // 先检查浏览器是否支持
+      // 不支持 Notification
+      console.error('不支持 Notification')
+
+      // eslint-disable-next-line brace-style
+    }
+    // 检查用户是否同意接受通知
+    else if (Notification.permission === 'granted') { // 已同意 Notification
+      console.log('已同意 Notification')
+    } else if (Notification.permission !== 'denied') { // 未同意 Notification
+      console.log('未同意 Notification')
+      Notification.requestPermission().then(function (permission) { // 申请 Notification
+        if (permission === 'granted') { // 同意 Notification
+          console.log('Notification 申请成功')
+        } else { // 不同意 Notification
+          console.log('Notification 申请失败')
+        }
+      })
+    }
+  }
+}
+
 // 生成RSA密钥对位数
-const bits = ref(1024)
+const bits = ref<number>(1024)
+watch(() => bits.value, (newValue, oldValue) => {
+  applyNotification(newValue)
+})
+
 const bitsOptions = [
   {
     value: 512,
@@ -220,6 +249,15 @@ const exec = () => {
   const rsaKeypair = jsrsasign.KEYUTIL.generateKeypair('RSA', bits.value)
   publicKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.pubKeyObj)
   privateKey.value = jsrsasign.KEYUTIL.getPEM(rsaKeypair.prvKeyObj, 'PKCS8PRV')
+
+  if ('Notification' in window) { // 浏览器支持
+    if (Notification.permission === 'granted') { // 已同意
+      const notification = new Notification(`生成 ${bits.value} 位 RSA 非对称性加密密钥对成功`)
+      notification.onshow = function () {
+
+      }
+    }
+  }
 }
 
 </script>
