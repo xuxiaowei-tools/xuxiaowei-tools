@@ -6,7 +6,8 @@
       <i class="el-icon-upload" />
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
     </el-upload> -->
-    <el-upload ref="upload" class="upload-demo" action="a" :limit="1" :on-exceed="handleExceed" :on-change="fileChange"
+    <!-- :on-exceed="handleExceed" -->
+    <el-upload ref="upload" class="upload-demo" action="a" :limit="1" :on-change="fileChange"
       :auto-upload="false">
       <template #trigger>
         <el-button type="primary">选择文件</el-button>
@@ -24,6 +25,7 @@
 
 <script lang="ts" setup>
 // 这里是vite 创建得 vue3 导入SparkMD5  vue2用require导入
+// @ts-ignore
 import SparkMD5 from 'spark-md5'
 import { ref } from 'vue'
 const files = ref()
