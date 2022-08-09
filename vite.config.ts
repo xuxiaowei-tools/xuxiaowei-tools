@@ -18,5 +18,8 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()]
     }),
     Unocss()
-  ]
+  ],
+  build: {
+    sourcemap: true
+  }
 })
