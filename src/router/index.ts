@@ -8,6 +8,16 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
+    path: '/editor/toast-ui',
+    name: 'ToastUi',
+    component: () => import('../views/editor/ToastUiEditorView.vue')
+  },
+  {
+    path: '/editor/wangeditor',
+    name: 'WangEditor',
+    component: () => import('../views/editor/WangEditorView.vue')
+  },
+  {
     path: '/password',
     name: 'Password',
     component: () => import('../views/PasswordView.vue')
