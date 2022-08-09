@@ -47,7 +47,7 @@ const host = location.host
   </component>
 
   <el-row justify="space-evenly">
-    <el-col :span="22" style="text-align: center">
+    <el-col :span="22" class="text-center">
       <router-link to="/">Home</router-link>
       <el-divider direction="vertical" />
       <router-link to="/password">Password</router-link>
@@ -59,6 +59,8 @@ const host = location.host
       <router-link to="/encryption/RSA">RSA</router-link>
       <el-divider direction="vertical" />
       <router-link to="/encryption/AES">AES</router-link>
+      <el-divider direction="vertical" />
+      <router-link to="/encryption/JWT">JWT</router-link>
       <el-divider direction="vertical" />
       <router-link to="/encryption/MD5">MD5</router-link>
       <el-divider direction="vertical" />

@@ -1,6 +1,6 @@
 <template>
   <el-row justify="center">
-    <el-col :span="22" style="text-align: center">
+    <el-col :span="22" class="text-center">
       <h1>AES 对称性加密</h1>
     </el-col>
   </el-row>
@@ -37,7 +37,8 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="type === '1' ? 22 : 11">
-      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick" data-dblclick="秘钥已复制到剪贴板">
+      <el-input v-model="key" placeholder="请输入秘钥" clearable @dblclick="dblclick"
+                data-dblclick="秘钥已复制到剪贴板">
         <template #prepend>
           <span>秘钥 key</span>
         </template>
@@ -49,7 +50,8 @@
       </el-input>
     </el-col>
     <el-col :span="11" v-if="type === '2'">
-      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick" data-dblclick="偏移量已复制到剪贴板">
+      <el-input v-model="iv" placeholder="请输入偏移量" clearable @dblclick="dblclick"
+                data-dblclick="偏移量已复制到剪贴板">
         <template #prepend>
           <span>偏移量 iv</span>
         </template>
@@ -69,6 +71,10 @@
       <el-button @click="encrypt" class="encrypt-button w-100%">加密</el-button>
     </el-col>
     <el-col :span="11">
+      <el-select v-model="originalFormat" placeholder="原文是否格式化" class="decrypt-enc-select-left w-100px">
+        <el-option label="格式化" :value="true"/>
+        <el-option label="不格式化" :value="false"/>
+      </el-select>
       <el-button @click="decrypt" class="decrypt-button">解密</el-button>
       <el-select v-model="decryptEnc" placeholder="请选择解密编码" class="decrypt-enc-select w-100px">
         <el-option v-for="item in decryptEncOptions" :key="item.value" :label="item.label" :value="item.value"/>
@@ -80,8 +86,8 @@
 
   <el-row class="text-row" justify="center" :gutter="20">
     <el-col :span="11">
-      <el-input v-model="originalText" class="originalText-input" placeholder="原文" type="textarea" @dblclick="dblclick"
-                rows="15" data-dblclick="原文已复制到剪贴板"/>
+      <el-input v-model="originalTextShow" class="originalText-input" placeholder="原文" type="textarea"
+                @dblclick="dblclick" rows="15" data-dblclick="原文已复制到剪贴板"/>
     </el-col>
     <el-col :span="11">
       <el-input v-model="ciphertext" class="ciphertext-input" placeholder="密文" type="textarea" @dblclick="dblclick"
@@ -322,7 +328,22 @@ const ivEncOptions = [
 ]
 
 // 原文
-const originalText = ref('my message')
+const originalText = ref('')
+// 原文：是否格式化
+const originalFormat = ref<boolean>(true)
+// 原文：格式化
+const originalTextFormat = ref('')
+// 原文：展示
+const originalTextShow = ref('my message')
+
+const textShow = (show: boolean) => {
+  originalTextShow.value = show ? originalTextFormat.value : originalText.value
+}
+
+watch(() => originalFormat.value, (newValue, oldValue) => {
+  console.log(newValue)
+  textShow(newValue)
+})
 
 // 密文
 const ciphertext = ref('')
@@ -398,6 +419,10 @@ const decrypt = () => {
 
   try {
     originalText.value = bytes.toString(getEnc(decryptEnc.value))
+    originalTextFormat.value = JSON.stringify(JSON.parse(originalText.value), null, '\t')
+
+    textShow(originalFormat.value)
+
     if (originalText.value === '') {
       if (type.value === '1') {
         ElMessage({ message: '解密结果为空，请检查秘钥与密文是否正确', type: 'warning' })
@@ -539,7 +564,8 @@ router.isReady().then(() => {
 
 // 只能放在无 scoped 的 style 标签中
 .input-readonly .el-input__wrapper,
-.decrypt-enc-select .el-input__wrapper{
+.decrypt-enc-select .el-input__wrapper,
+.decrypt-enc-select-left .el-input__wrapper {
   // 输入框显示禁用颜色
   background-color: var(--el-fill-color-light);
 }
@@ -553,6 +579,7 @@ router.isReady().then(() => {
 }
 
 .mode-placeholder .el-input__wrapper,
+.decrypt-enc-select-left .el-input__wrapper,
 .decrypt-button {
 
   // 右上角半径：0
@@ -566,7 +593,8 @@ router.isReady().then(() => {
 // 解密编码
 .mode-select .el-input__wrapper,
 .padding-select .el-input__wrapper,
-.decrypt-enc-select .el-input__wrapper {
+.decrypt-enc-select .el-input__wrapper,
+.decrypt-button {
   // 左上角半径：0
   border-top-left-radius: 0;
   // 左下角半径：0
@@ -587,7 +615,7 @@ router.isReady().then(() => {
 
 // 只能放在无 scoped 的 style 标签中
 .mode-placeholder input,
-.padding-placeholder input{
+.padding-placeholder input {
   // 输入框居中及字体颜色
   text-align: center;
   color: var(--el-color-info);
@@ -606,12 +634,12 @@ router.isReady().then(() => {
 
 // 模式选择
 .mode-select {
-  width: calc(100% - 94.83px );
+  width: calc(100% - 94.83px);
 }
 
 // 填充方案选择
 .padding-select {
-  width: calc(100% - 155.85px );
+  width: calc(100% - 155.85px);
 }
 
 // 按钮行
@@ -623,7 +651,7 @@ router.isReady().then(() => {
 
   // 解密按钮
   .decrypt-button {
-    width: calc(100% - 100px);
+    width: calc(100% - 200px);
   }
 
   // 解密编码选择

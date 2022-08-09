@@ -1,6 +1,6 @@
 <template>
   <el-row justify="space-evenly">
-    <el-col :span="22" style="text-align: center">
+    <el-col :span="22" class="text-center">
       <h1>UUID</h1>
     </el-col>
   </el-row>

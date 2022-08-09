@@ -1,6 +1,6 @@
 <template>
   <el-row justify="space-evenly">
-    <el-col :span="22" style="text-align: center">
+    <el-col :span="22" class="text-center">
       <h1>Password</h1>
     </el-col>
   </el-row>
@@ -204,8 +204,11 @@ const exec = () => {
     })
 
     if (tmp === '') {
-      ElMessage({ message: '条件不合法', type: 'warning' })
-      return
+      ElMessage({ message: '随机字符串、长度不合法', type: 'warning' })
+      break
+    } else if (tmp.length !== Number(passwordLength.value)) {
+      ElMessage({ message: '随机字符串、长度不合法', type: 'warning' })
+      break
     }
 
     dataList.value.push(tmp)
