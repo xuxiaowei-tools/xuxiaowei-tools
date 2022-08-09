@@ -50,4 +50,25 @@ onMounted(() => {
 
 <style scoped>
 
+#toolbar-container {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+#editor-container {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+
+  min-height: 500px;
+
+  border-top: none;
+}
+
+#toolbar-container,
+#editor-container {
+  border-color: rgb(218, 221, 230);
+  border-style: solid;
+  border-width: 1px;
+}
+
 </style>
