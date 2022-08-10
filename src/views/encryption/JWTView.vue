@@ -9,7 +9,11 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="22">
-      <el-button @click="decode" class="w-100%">解码</el-button>
+      <el-button @click="decode" class="decode-button">解码</el-button>
+      <el-select v-model="format" placeholder="是否格式化" class="decode-select w-100px">
+        <el-option label="格式化" :value="true"/>
+        <el-option label="不格式化" :value="false"/>
+      </el-select>
     </el-col>
   </el-row>
 
@@ -17,7 +21,7 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="22">
-      <el-input v-model="token" class="token-input" placeholder="原文" type="textarea" @dblclick="dblclick"
+      <el-input v-model="token" class="token-input" placeholder="token" type="textarea" @dblclick="dblclick"
                 rows="8" data-dblclick="token已复制到剪贴板"/>
     </el-col>
   </el-row>
@@ -26,11 +30,75 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="11">
-      <el-input v-model="header" class="token-input" placeholder="原文" type="textarea" @dblclick="dblclick"
+      <el-input v-model="alg" @dblclick="dblclick" readonly data-dblclick="加密方式 alg 已复制到剪贴板">
+        <template #prepend>
+          <span>加密方式 alg</span>
+        </template>
+      </el-input>
+    </el-col>
+    <el-col :span="11">
+      <el-input v-model="issuer" @dblclick="dblclick" readonly data-dblclick="签发者 issuer、iss 已复制到剪贴板">
+        <template #prepend>
+          <span>签发者 issuer、iss</span>
+        </template>
+      </el-input>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
+      <el-tooltip class="box-item" effect="dark" :content="issuedAttooltip" placement="top-end"
+                  :disabled="issuedAt === ''">
+        <el-input v-model="issuedAt" @dblclick="dblclick" readonly data-dblclick="签发时间 issuedAt、iat 已复制到剪贴板">
+          <template #prepend>
+            <span>签发时间 issuedAt、iat</span>
+          </template>
+        </el-input>
+      </el-tooltip>
+    </el-col>
+    <el-col :span="11">
+      <el-tooltip class="box-item" effect="dark" :content="expirationAttooltip" placement="top-end"
+                  :disabled="expiration === ''">
+        <el-input v-model="expiration" @dblclick="dblclick" readonly
+                  data-dblclick="过期时间 expiration、exp 已复制到剪贴板">
+          <template #prepend>
+            <span>过期时间 expiration、exp</span>
+          </template>
+        </el-input>
+      </el-tooltip>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
+      <el-input v-model="audience" @dblclick="dblclick" readonly data-dblclick="观众 audience、aud 已复制到剪贴板">
+        <template #prepend>
+          <span>观众 audience、aud</span>
+        </template>
+      </el-input>
+    </el-col>
+    <el-col :span="11">
+      <el-input v-model="subject" @dblclick="dblclick" readonly data-dblclick="主题 subject、sub 已复制到剪贴板">
+        <template #prepend>
+          <span>主题 subject、sub</span>
+        </template>
+      </el-input>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
+      <el-input v-model="headerShow" class="token-input" placeholder="header" type="textarea" @dblclick="dblclick"
                 rows="10" data-dblclick="header已复制到剪贴板"/>
     </el-col>
     <el-col :span="11">
-      <el-input v-model="payload" class="token-input" placeholder="原文" type="textarea" @dblclick="dblclick"
+      <el-input v-model="payloadShow" class="token-input" placeholder="payload" type="textarea" @dblclick="dblclick"
                 rows="10" data-dblclick="payload已复制到剪贴板"/>
     </el-col>
   </el-row>
@@ -38,32 +106,180 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import jwtDecode from 'jwt-decode'
+import { ref, watch } from 'vue'
+import { ElMessage } from 'element-plus/es'
 import dblclick from '../../utils/clipboard'
+import jwtStore from '../../store/jwt'
 
-const token = ref<string>('eyJhbGciOiJSUzI1NiJ9.eyJVU0VSU19JRCI6MSwic3ViIjoieHV4aWFvd2VpIiwiYXVkIjoieHV4aWFvd2VpX2NsaWVudF9pZCIsIm5iZiI6MTY1OTY3ODIwNywic2NvcGUiOlsic25zYXBpX2Jhc2UiXSwiaXNzIjoiaHR0cDpcL1wvMTcyLjE2LjU2LjIwNzoxNDAxIiwiZXhwIjoxNjU5NzIxNDA3LCJpYXQiOjE2NTk2NzgyMDcsImF1dGhvcml0aWVzIjpbIm1hbmFnZV91c2VyX2RlbGV0ZSIsInNuc2FwaV9iYXNlIiwidXNlcl9vYXV0aDJfdXNlckF1dGhlbnRpY2F0aW9uIiwidXNlcl9kZXRhaWxzIiwibWFuYWdlX2NsaWVudF9lZGl0IiwidXNlcl9vYXV0aDJfb2F1dGgyUmVxdWVzdCIsImF1ZGl0X2F1dGhvcml6YXRpb25fZGVsZXRlIiwiYXVkaXRfYXV0aG9yaXphdGlvbl9jb25zZW50X2RlbGV0ZSIsImF1ZGl0X2F1dGhvcml6YXRpb25fY29uc2VudF9yZWFkIiwibWFuYWdlX3VzZXJfYWRkIiwibWFuYWdlX3VzZXJfcmVhZCIsInVzZXJuYW1lX3Rva2VuX2RlbGV0ZSIsImNsaWVudElkX3Rva2VuX2RlbGV0ZSIsIm1hbmFnZV91c2VyX2F1dGhvcml0eSIsInVzZXJfaW5mbyIsImF1ZGl0X2F1dGhvcml6YXRpb25fcmVhZCIsIm1hbmFnZV9jbGllbnRfYWRkIiwibWFuYWdlX2NsaWVudF9kZWxldGUiLCJtYW5hZ2VfY2xpZW50X3JlYWQiLCJ1c2VyX2F1dGhvcml0aWVzIiwibWFuYWdlX3VzZXJfZWRpdCJdLCJ1c2VybmFtZSI6Inh1eGlhb3dlaSJ9.Bb82mwwy8Df9i_0vjs_YN9Se_uc8DYfkWDOjrtsPGWUw3JtcGro9JOUD_8O5xEz4PaCT9cCY4LJEUMzSIH3sGMYcUdtsma6qfNXHxgdguqgbCwkWUYaVGTKBuxcZhByX2K1r5X2qmD05zfdPwBMt7qsCxE83u6Xm2GO5j39BlDwuVHJ9-i1BYMBG6vNH-mcPkdG4EV9DNjHmkv5zW2J7cwIb8sT-8QXUv246nT8pOru8ZvUCa0_rAj6RXo0mJWkkR4TFBBwWs22tMfFUbeQ-hmCY8hn07R6bEI8JrQG8PENORKwmcu8_I2QzMLUvR3lmI8mvKPjmqH4Mek9bOOFh3Q')
+const token = ref<string>(jwtStore.token)
+watch(() => token.value, (newValue, oldValue) => {
+  jwtStore.setToken(newValue)
+})
 
-const header = ref<string>()
+// 头部
+const header = ref<string>('')
+// 头部：显示
+const headerShow = ref<string>('')
 
-const payload = ref<string>()
+// 载荷
+const payload = ref<string>('')
+// 载荷：显示
+const payloadShow = ref<string>('')
 
+// 加密方式
+const alg = ref<string>('')
+// 签发者：issuer、iss
+const issuer = ref<string>('')
+
+// 签发时间：issuedAt、iat
+const issuedAt = ref<string | number>('')
+// 签发时间：鼠标覆盖展示
+const issuedAttooltip = ref('')
+watch(() => issuedAt.value, (newValue: number | string, oldValue: number | string) => {
+  if (typeof newValue === 'number') {
+    issuedAttooltip.value = new Date(newValue * 1000).toLocaleString()
+  }
+})
+
+// 过期时间
+const expiration = ref<string>('')
+// 过期时间：鼠标覆盖展示
+const expirationAttooltip = ref<string>('')
+watch(() => expiration.value, (newValue: number | string, oldValue: number | string) => {
+  if (typeof newValue === 'number') {
+    expirationAttooltip.value = new Date(newValue * 1000).toLocaleString()
+  }
+})
+
+// 观众
+const audience = ref<string>('')
+// 主题
+const subject = ref<string>('')
+
+// 格式化
+const format = ref<boolean>(jwtStore.format)
+watch(() => format.value, (newValue, oldValue) => {
+  jwtStore.setFormat(newValue)
+
+  show(newValue)
+})
+
+// 解密
 const decode = () => {
-  header.value = JSON.stringify(jwtDecode(token.value, { header: true }))
-  payload.value = JSON.stringify(jwtDecode(token.value))
+  if (token.value === '') {
+    ElMessage.error('token不能为空')
+    return
+  }
 
-  // const tokenSplit = token.value?.split('.')
-  // if (tokenSplit?.length >= 1) {
-  //   header.value = window.atob(tokenSplit[0])
-  // }
-  //
-  // if (tokenSplit?.length >= 2) {
-  //   payload.value = window.atob(tokenSplit[1])
-  // }
+  const tokenSplit = token.value?.split('.')
+  if (tokenSplit?.length >= 1) {
+    try {
+      header.value = window.atob(tokenSplit[0])
+    } catch (e) {
+      headerShow.value = ''
+      console.error('解密header时异常', e)
+      ElMessage.error('解密header时异常')
+    }
+  } else {
+    ElMessage.error('未找到header')
+  }
+
+  if (tokenSplit?.length >= 2) {
+    try {
+      payload.value = window.atob(tokenSplit[1])
+    } catch (e) {
+      payloadShow.value = ''
+      console.error('解密payload时异常', e)
+      ElMessage.error('解密payload时异常')
+    }
+  } else {
+    ElMessage.error('未找到payload')
+  }
+
+  show(format.value)
+}
+
+// 展示
+const show = (boo: boolean) => {
+  if (boo) {
+    try {
+      headerShow.value = JSON.stringify(JSON.parse(header.value), null, '\t')
+    } catch (e) {
+      console.error('格式化header异常', e)
+      ElMessage.error('格式化header异常')
+    }
+    try {
+      payloadShow.value = JSON.stringify(JSON.parse(payload.value), null, '\t')
+    } catch (e) {
+      console.error('格式化payload异常', e)
+      ElMessage.error('格式化payload异常')
+    }
+  } else {
+    headerShow.value = header.value
+    payloadShow.value = payload.value
+  }
+
+  try {
+    alg.value = JSON.parse(header.value).alg
+  } catch (e) {
+    console.error('提取加密方式 alg 异常', e)
+  }
+
+  try {
+    issuer.value = JSON.parse(payload.value).issuer || JSON.parse(payload.value).iss
+  } catch (e) {
+    console.error('提取签发者 issuer、iss 异常', e)
+  }
+
+  try {
+    issuedAt.value = JSON.parse(payload.value).issuedAt || JSON.parse(payload.value).iat
+  } catch (e) {
+    console.error('提取签发时间 issuedAt、iat 异常', e)
+  }
+
+  try {
+    expiration.value = JSON.parse(payload.value).expiration || JSON.parse(payload.value).exp
+  } catch (e) {
+    console.error('提取过期时间 expiration、exp 异常', e)
+  }
+
+  try {
+    audience.value = JSON.parse(payload.value).audience || JSON.parse(payload.value).aud
+  } catch (e) {
+    console.error('提取观众 audience、aud 异常', e)
+  }
+
+  try {
+    subject.value = JSON.parse(payload.value).subject || JSON.parse(payload.value).sub
+  } catch (e) {
+    console.error('提取主题 subject、sub 异常', e)
+  }
 }
 
 </script>
 
+<style lang="scss">
+
+.decode-button {
+  // 右上角半径：0
+  border-top-right-radius: 0;
+  // 右下角半径：0
+  border-bottom-right-radius: 0;
+}
+
+.decode-select .el-input__wrapper {
+  // 左上角半径：0
+  border-top-left-radius: 0;
+  // 左下角半径：0
+  border-bottom-left-radius: 0;
+}
+
+</style>
+
 <style scoped>
+
+.decode-button {
+  width: calc(100% - 100px);
+}
 
 </style>
