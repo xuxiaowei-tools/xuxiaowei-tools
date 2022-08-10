@@ -50,6 +50,8 @@ const host = location.host
     <el-col :span="22" class="text-center">
       <router-link to="/">Home</router-link>
       <el-divider direction="vertical" />
+      <router-link to="/region">省市区</router-link>
+      <el-divider direction="vertical" />
       <router-link to="/editor/toast-ui">ToastUi</router-link>
       <el-divider direction="vertical" />
       <router-link to="/editor/wangeditor">WangEditor</router-link>
