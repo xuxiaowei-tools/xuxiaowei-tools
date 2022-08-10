@@ -10,7 +10,7 @@
   <el-row justify="center" :gutter="20">
     <el-col :span="22">
       <el-button @click="generate" class="generate-button">生成秘钥</el-button>
-      <el-select v-model="bits" placeholder="请选择生成RSA密钥对位数" class="decrypt-enc-select w-150px">
+      <el-select v-model="bits" placeholder="请选择生成RSA密钥对位数" class="generate-button-select w-150px">
         <el-option v-for="item in bitsOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-col>
@@ -261,6 +261,24 @@ const exec = () => {
 }
 
 </script>
+
+<style lang="scss">
+
+.generate-button {
+  // 右上角半径：0
+  border-top-right-radius: 0;
+  // 右下角半径：0
+  border-bottom-right-radius: 0;
+}
+
+.generate-button-select .el-input__wrapper {
+  // 左上角半径：0
+  border-top-left-radius: 0;
+  // 左下角半径：0
+  border-bottom-left-radius: 0;
+}
+
+</style>
 
 <style scoped>
 

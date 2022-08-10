@@ -258,6 +258,24 @@ const show = (boo: boolean) => {
 
 </script>
 
+<style lang="scss">
+
+.decode-button {
+  // 右上角半径：0
+  border-top-right-radius: 0;
+  // 右下角半径：0
+  border-bottom-right-radius: 0;
+}
+
+.decode-select .el-input__wrapper {
+  // 左上角半径：0
+  border-top-left-radius: 0;
+  // 左下角半径：0
+  border-bottom-left-radius: 0;
+}
+
+</style>
+
 <style scoped>
 
 .decode-button {
