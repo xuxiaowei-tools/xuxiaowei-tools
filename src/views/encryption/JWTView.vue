@@ -30,6 +30,70 @@
 
   <el-row justify="center" :gutter="20">
     <el-col :span="11">
+      <el-input v-model="alg" @dblclick="dblclick" readonly data-dblclick="加密方式 alg 已复制到剪贴板">
+        <template #prepend>
+          <span>加密方式 alg</span>
+        </template>
+      </el-input>
+    </el-col>
+    <el-col :span="11">
+      <el-input v-model="issuer" @dblclick="dblclick" readonly data-dblclick="签发者 issuer、iss 已复制到剪贴板">
+        <template #prepend>
+          <span>签发者 issuer、iss</span>
+        </template>
+      </el-input>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
+      <el-tooltip class="box-item" effect="dark" :content="issuedAttooltip" placement="top-end"
+                  :disabled="issuedAt === ''">
+        <el-input v-model="issuedAt" @dblclick="dblclick" readonly data-dblclick="签发时间 issuedAt、iat 已复制到剪贴板">
+          <template #prepend>
+            <span>签发时间 issuedAt、iat</span>
+          </template>
+        </el-input>
+      </el-tooltip>
+    </el-col>
+    <el-col :span="11">
+      <el-tooltip class="box-item" effect="dark" :content="expirationAttooltip" placement="top-end"
+                  :disabled="expiration === ''">
+        <el-input v-model="expiration" @dblclick="dblclick" readonly
+                  data-dblclick="过期时间 expiration、exp 已复制到剪贴板">
+          <template #prepend>
+            <span>过期时间 expiration、exp</span>
+          </template>
+        </el-input>
+      </el-tooltip>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
+      <el-input v-model="audience" @dblclick="dblclick" readonly data-dblclick="观众 audience、aud 已复制到剪贴板">
+        <template #prepend>
+          <span>观众 audience、aud</span>
+        </template>
+      </el-input>
+    </el-col>
+    <el-col :span="11">
+      <el-input v-model="subject" @dblclick="dblclick" readonly data-dblclick="主题 subject、sub 已复制到剪贴板">
+        <template #prepend>
+          <span>主题 subject、sub</span>
+        </template>
+      </el-input>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="11">
       <el-input v-model="headerShow" class="token-input" placeholder="header" type="textarea" @dblclick="dblclick"
                 rows="10" data-dblclick="header已复制到剪贴板"/>
     </el-col>
@@ -52,12 +116,47 @@ watch(() => token.value, (newValue, oldValue) => {
   jwtStore.setToken(newValue)
 })
 
+// 头部
 const header = ref<string>('')
+// 头部：显示
 const headerShow = ref<string>('')
 
+// 载荷
 const payload = ref<string>('')
+// 载荷：显示
 const payloadShow = ref<string>('')
 
+// 加密方式
+const alg = ref<string>('')
+// 签发者：issuer、iss
+const issuer = ref<string>('')
+
+// 签发时间：issuedAt、iat
+const issuedAt = ref<string | number>('')
+// 签发时间：鼠标覆盖展示
+const issuedAttooltip = ref('')
+watch(() => issuedAt.value, (newValue: number | string, oldValue: number | string) => {
+  if (typeof newValue === 'number') {
+    issuedAttooltip.value = new Date(newValue * 1000).toLocaleString()
+  }
+})
+
+// 过期时间
+const expiration = ref<string>('')
+// 过期时间：鼠标覆盖展示
+const expirationAttooltip = ref<string>('')
+watch(() => expiration.value, (newValue: number | string, oldValue: number | string) => {
+  if (typeof newValue === 'number') {
+    expirationAttooltip.value = new Date(newValue * 1000).toLocaleString()
+  }
+})
+
+// 观众
+const audience = ref<string>('')
+// 主题
+const subject = ref<string>('')
+
+// 格式化
 const format = ref<boolean>(jwtStore.format)
 watch(() => format.value, (newValue, oldValue) => {
   jwtStore.setFormat(newValue)
@@ -65,6 +164,7 @@ watch(() => format.value, (newValue, oldValue) => {
   show(newValue)
 })
 
+// 解密
 const decode = () => {
   if (token.value === '') {
     ElMessage.error('token不能为空')
@@ -99,6 +199,7 @@ const decode = () => {
   show(format.value)
 }
 
+// 展示
 const show = (boo: boolean) => {
   if (boo) {
     try {
@@ -116,6 +217,42 @@ const show = (boo: boolean) => {
   } else {
     headerShow.value = header.value
     payloadShow.value = payload.value
+  }
+
+  try {
+    alg.value = JSON.parse(header.value).alg
+  } catch (e) {
+    console.error('提取加密方式 alg 异常', e)
+  }
+
+  try {
+    issuer.value = JSON.parse(payload.value).issuer || JSON.parse(payload.value).iss
+  } catch (e) {
+    console.error('提取签发者 issuer、iss 异常', e)
+  }
+
+  try {
+    issuedAt.value = JSON.parse(payload.value).issuedAt || JSON.parse(payload.value).iat
+  } catch (e) {
+    console.error('提取签发时间 issuedAt、iat 异常', e)
+  }
+
+  try {
+    expiration.value = JSON.parse(payload.value).expiration || JSON.parse(payload.value).exp
+  } catch (e) {
+    console.error('提取过期时间 expiration、exp 异常', e)
+  }
+
+  try {
+    audience.value = JSON.parse(payload.value).audience || JSON.parse(payload.value).aud
+  } catch (e) {
+    console.error('提取观众 audience、aud 异常', e)
+  }
+
+  try {
+    subject.value = JSON.parse(payload.value).subject || JSON.parse(payload.value).sub
+  } catch (e) {
+    console.error('提取主题 subject、sub 异常', e)
   }
 }
 
