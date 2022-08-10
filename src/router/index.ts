@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -6,6 +6,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/region',
+    name: '省市区',
+    component: () => import('../views/region/RegionView.vue')
   },
   {
     path: '/editor/toast-ui',
@@ -78,7 +83,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
