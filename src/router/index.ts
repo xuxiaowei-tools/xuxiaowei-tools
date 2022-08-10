@@ -8,6 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
+    path: '/region',
+    name: '省市区',
+    component: () => import('../views/region/RegionView.vue')
+  },
+  {
     path: '/editor/toast-ui',
     name: 'ToastUi',
     component: () => import('../views/editor/ToastUiEditorView.vue')
