@@ -64,7 +64,6 @@
     "element-plus": "2.2.11",
     "jsencrypt": "3.2.1",
     "jsrsasign": "10.5.26",
-    "jwt-decode": "3.1.2",
     "pinia": "2.0.17",
     "spark-md5": "3.0.2",
     "uuid": "8.3.2",
