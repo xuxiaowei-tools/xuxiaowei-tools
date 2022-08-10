@@ -13,10 +13,10 @@
   <br>
 
   <el-row justify="center">
-    <el-select-v2 v-model="provinceId" :options="provinceOptions" placeholder="" size="large"/>
-    <el-select-v2 v-model="cityId" :options="cityOptions" placeholder="" size="large"/>
-    <el-select-v2 v-model="countyId" :options="countyOptions" placeholder="" size="large"/>
-    <el-select-v2 v-model="townId" :options="townOptions" placeholder="" size="large"/>
+    <el-select-v2 v-model="provinceId" :options="provinceOptions" filterable size="large"/>
+    <el-select-v2 v-model="cityId" :options="cityOptions" filterable size="large"/>
+    <el-select-v2 v-model="countyId" :options="countyOptions" filterable size="large"/>
+    <el-select-v2 v-model="townId" :options="townOptions" filterable size="large"/>
   </el-row>
 
 </template>
