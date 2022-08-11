@@ -80,7 +80,6 @@
     "@typescript-eslint/eslint-plugin": "5.31.0",
     "@typescript-eslint/parser": "5.31.0",
     "@vitejs/plugin-vue": "3.0.1",
-    "esbuild-windows-64": "0.14.54",
     "eslint": "8.20.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.26.0",
