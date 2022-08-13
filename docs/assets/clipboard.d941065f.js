@@ -1,0 +1,2 @@
+import{u as c}from"./index.2a9b7142.js";import{E as s}from"./index.156e3bff.js";const{toClipboard:e}=c(),l=async t=>{try{await e(t.target.value),s({message:t.target.dataset.dblclick,type:"success"})}catch(a){console.error(a)}},i=async t=>{try{await e(t.target.innerText),s({message:t.target.dataset.dblclick,type:"success"})}catch(a){console.error(a)}};export{l as a,i as d};
+//# sourceMappingURL=clipboard.d941065f.js.map
