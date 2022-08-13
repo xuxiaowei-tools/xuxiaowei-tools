@@ -354,14 +354,14 @@ const encrypt = () => {
   try {
     if (type.value === '1') {
       // 1：仅秘钥 key
-      ciphertext.value = CryptoJS.AES.encrypt(originalText.value, keyValue, {
+      ciphertext.value = CryptoJS.AES.encrypt(originalTextShow.value, keyValue, {
         mode: getMode(mode.value),
         padding: getPadding(padding.value)
       }).toString()
     } else {
       // 2：秘钥 key + 偏移量 iv
       const ivParse = valueParse(ivEnc.value, iv.value)
-      ciphertext.value = CryptoJS.AES.encrypt(originalText.value, keyValue, {
+      ciphertext.value = CryptoJS.AES.encrypt(originalTextShow.value, keyValue, {
         ivParse,
         mode: getMode(mode.value),
         padding: getPadding(padding.value)
@@ -419,9 +419,12 @@ const decrypt = () => {
 
   try {
     originalText.value = bytes.toString(getEnc(decryptEnc.value))
-    originalTextFormat.value = JSON.stringify(JSON.parse(originalText.value), null, '\t')
-
-    textShow(originalFormat.value)
+    try {
+      originalTextFormat.value = JSON.stringify(JSON.parse(originalText.value), null, '\t')
+      textShow(originalFormat.value)
+    } catch (e) {
+      textShow(false)
+    }
 
     if (originalText.value === '') {
       if (type.value === '1') {
