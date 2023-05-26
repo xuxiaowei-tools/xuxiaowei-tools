@@ -63,7 +63,7 @@
     "crypto-js": "4.1.1",
     "element-plus": "2.2.28",
     "jsencrypt": "3.3.2",
-    "jsrsasign": "10.6.1",
+    "jsrsasign": "10.8.6",
     "pinia": "2.0.28",
     "spark-md5": "3.0.2",
     "uuid": "9.0.0",
