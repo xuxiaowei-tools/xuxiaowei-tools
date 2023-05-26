@@ -54,7 +54,7 @@
     "vite"
   ],
   "dependencies": {
-    "@element-plus/icons-vue": "2.0.10",
+    "@element-plus/icons-vue": "2.1.0",
     "@tauri-apps/api": "1.2.0",
     "@toast-ui/editor": "3.2.1",
     "@wangeditor/editor": "5.1.23",
