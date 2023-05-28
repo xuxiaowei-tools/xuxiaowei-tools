@@ -8,3 +8,7 @@ updates:
       interval: "daily"
       time: "08:00"
       timezone: "Asia/Shanghai"
+    ignore:
+      - dependency-name: typescript
+        versions:
+          - ">= 5"
