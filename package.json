@@ -92,7 +92,7 @@
     "unocss": "0.52.4",
     "unplugin-auto-import": "0.16.2",
     "unplugin-vue-components": "0.22.12",
-    "vite": "4.0.4",
+    "vite": "4.3.9",
     "vue-tsc": "1.0.24"
   }
 }
