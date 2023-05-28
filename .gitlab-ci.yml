@@ -3,7 +3,7 @@ stages:
 
 build:
   stage: build
-  image: node:16.5.0
+  image: node:16.19.1
   cache:
     paths:
       - node_modules/
