@@ -87,7 +87,7 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-vue": "9.14.1",
     "husky": "8.0.3",
-    "sass": "1.63.2",
+    "sass": "1.63.3",
     "terser": "5.17.7",
     "typescript": "4.9.5",
     "unocss": "0.53.1",
