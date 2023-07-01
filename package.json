@@ -75,7 +75,7 @@
     "@tauri-apps/cli": "1.4.0",
     "@types/bcryptjs": "2.4.2",
     "@types/crypto-js": "4.1.1",
-    "@types/node": "20.3.2",
+    "@types/node": "20.3.3",
     "@types/uuid": "9.0.2",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.60.1",
