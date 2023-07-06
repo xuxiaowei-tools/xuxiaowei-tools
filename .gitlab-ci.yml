@@ -3,7 +3,7 @@ stages:
 
 build:
   stage: build
-  image: node:16.5.0
+  image: node:16.19.1
   cache:
     paths:
       - node_modules/
@@ -13,5 +13,10 @@ build:
   artifacts:
     paths:
       - dist
+  # https://docs.gitlab.com/ee/ci/yaml/index.html#rules
+  # 极狐GitLab中文文档：https://docs.gitlab.cn/jh/ci/yaml/index.html#rules
   rules:
+    # PR 到 main 分支时预执行
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+    # PR 合并到 main 后执行、推送到 main 分支时
     - if: $CI_COMMIT_BRANCH == "main"

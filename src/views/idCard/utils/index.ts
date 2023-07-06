@@ -1,4 +1,3 @@
-
 export const provinceAndCitys = {
   11: '北京',
   12: '天津',
