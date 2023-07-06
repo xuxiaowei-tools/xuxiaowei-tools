@@ -73,6 +73,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/idCard/index.vue')
   },
   {
+    path: '/docker/images/migrate',
+    name: 'Docker Images Migrate',
+    component: () => import('../views/docker/images/MigrateView.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
