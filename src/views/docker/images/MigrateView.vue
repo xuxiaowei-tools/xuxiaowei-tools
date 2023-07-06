@@ -173,6 +173,21 @@ const getCommand = () => {
 
   <el-row justify="center" :gutter="20">
     <el-col :span="22">
+      <li>仓库迁移模式，国内镜像网站推荐使用 <a href="https://jihulab.com">极狐GitLab</a></li>
+      <li>极狐GitLab Docker 镜像的域名是 registry.jihulab.com</li>
+      <li>使用 极狐GitLab 储存镜像时，镜像名称需要使用 极狐GitLab 仓库名称作为前缀</li>
+      <li>例如：以 <a href="https://jihulab.com/xuxiaowei-cloud/xuxiaowei-cloud">https://jihulab.com/xuxiaowei-cloud/xuxiaowei-cloud</a>
+        项目为例，如果想把镜像推送到这个仓库名下，需要将镜像名修改为以
+        registry.jihulab.com/xuxiaowei-cloud/xuxiaowei-cloud
+        为前缀，推送镜像结果查看网站 <a href="https://jihulab.com/xuxiaowei-cloud/xuxiaowei-cloud/container_registry">https://jihulab.com/xuxiaowei-cloud/xuxiaowei-cloud/container_registry</a>
+      </li>
+    </el-col>
+  </el-row>
+
+  <br>
+
+  <el-row justify="center" :gutter="20">
+    <el-col :span="22">
       <el-button @click="getCommand" class="get-command-button">获取命令</el-button>
     </el-col>
   </el-row>
