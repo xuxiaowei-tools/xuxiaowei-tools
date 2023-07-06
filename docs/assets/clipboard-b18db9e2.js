@@ -1,0 +1,1 @@
+import{u as t}from"./vue-clipboard3-12a5795a.js";import{d as a}from"./element-plus-a17310d1.js";const{toClipboard:e}=t(),s=async t=>{try{await e(t.target.value),a({message:t.target.dataset.dblclick,type:"success"})}catch(s){}},c=async t=>{try{await e(t.target.innerText),a({message:t.target.dataset.dblclick,type:"success"})}catch(s){}};export{s as a,c as d};
