@@ -28,7 +28,12 @@ const resultRows = ref<number>(16)
 const removeDomainFromUrl = (url: string) => {
   const parts = url.split('/')
   if (parts[0].includes('.')) {
-    return parts.slice(1).join('/')
+    const slice1 = parts.slice(1).join('/')
+    if (slice1 === '') {
+      return url
+    } else {
+      return slice1
+    }
   } else {
     return url
   }
