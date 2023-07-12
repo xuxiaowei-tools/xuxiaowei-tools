@@ -43,7 +43,7 @@ const removeDomainFromUrl = (url: string) => {
 const getArtificialCommand = () => {
   result.value += '\n# 将 docker 镜像保存成文件的命令\n'
   for (const image of imagesResult.value) {
-    result.value += `docker save -o ${image.replaceAll('https://', '').replaceAll('http://', '').replaceAll('/', '-').replaceAll(':', '-')}.tar ${image.replaceAll('https://', '').replaceAll('http://', '')} \n`
+    result.value += `docker save -o ${image.replaceAll('/', '-').replaceAll(':', '-')}.tar ${image} \n`
 
     rows.value++
   }
@@ -52,14 +52,14 @@ const getArtificialCommand = () => {
 
   result.value += '\n# docker 导入镜像命令\n'
   for (const image of imagesResult.value) {
-    result.value += `docker load -i ${image.replaceAll('https://', '').replaceAll('http://', '').replaceAll('/', '-').replaceAll(':', '-')}.tar \n`
+    result.value += `docker load -i ${image.replaceAll('/', '-').replaceAll(':', '-')}.tar \n`
 
     rows.value++
   }
 
   result.value += '\n# kubernetes（k8s） 导入镜像命令\n'
   for (const image of imagesResult.value) {
-    result.value += `ctr -n=k8s.io image import ${image.replaceAll('https://', '').replaceAll('http://', '').replaceAll('/', '-').replaceAll(':', '-')}.tar \n`
+    result.value += `ctr -n=k8s.io image import ${image.replaceAll('/', '-').replaceAll(':', '-')}.tar \n`
 
     rows.value++
   }
@@ -137,7 +137,7 @@ const getCommand = () => {
 
   result.value += '\n# 拉取 docker 镜像命令\n'
   for (const image of imagesResult.value) {
-    result.value += `docker pull ${image.replaceAll('https://', '').replaceAll('http://', '')} \n`
+    result.value += `docker pull ${image} \n`
 
     rows.value++
   }
