@@ -7,6 +7,7 @@ const dockerImagesMigrateDefineStore = defineStore('dockerImagesMigrate', {
     images: ref<string>('jimmidyson/configmap-reload:v0.5.0\n' +
       'grafana/grafana:9.3.2\n ' +
       ' \n \n nginx:1.23.3 \n  ' +
+      ' \n \n https://docker.io/calico/cni:v3.25.0 \n  ' +
       '  \n   \n  quay.io/brancz/kube-rbac-proxy:v0.14.0\n   ' +
       '\n  quay.io/prometheus/node-exporter:v1.5.0   \n' +
       ' registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.10.0 \n ' +

@@ -129,7 +129,7 @@ const getCommand = () => {
 
     // console.log(trimmedImage)
 
-    imagesResult.value.push(trimmedImage)
+    imagesResult.value.push(trimmedImage.replaceAll('http://', '').replaceAll('https://', ''))
     // console.log(commands.value)
 
     rows.value++
