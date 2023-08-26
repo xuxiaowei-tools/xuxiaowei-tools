@@ -61,7 +61,7 @@
     "axios": "1.4.0",
     "bcryptjs": "2.4.3",
     "crypto-js": "4.1.1",
-    "element-plus": "2.3.9",
+    "element-plus": "2.3.10",
     "jsencrypt": "3.3.2",
     "jsrsasign": "10.8.6",
     "pinia": "2.1.6",
