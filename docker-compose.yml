@@ -1,0 +1,9 @@
+services:
+  xuxiaowei-tools:
+    image: ${CI_REGISTRY_IMAGE}:${DOCKER_TAG}-${CI_PIPELINE_ID}
+    restart: always
+    ports:
+      - ${XUXIAOWEI_TOOLS_PORT:-45750}:80
+    volumes:
+      - /xuxiaowei-tools/logs:/var/log/nginx
+    container_name: xuxiaowei-tools

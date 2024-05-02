@@ -5,6 +5,9 @@
   "description": "基于 Tauri、Vite 3、Vue 3、Element Plus 的工具箱",
   "type": "module",
   "scripts": {
+    "pre:npm": "npm install --registry https://registry.npmmirror.com || npm install --registry https://registry.npmjs.org",
+    "pre:yarn": "yarn install --registry https://registry.npmmirror.com || yarn install --registry https://registry.npmjs.org",
+    "pre:pnpm": "pnpm install --registry https://registry.npmmirror.com || pnpm install --registry https://registry.npmjs.org",
     "dev": "vite --host",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx,.vue --cache --fix",
     "build": "vue-tsc --noEmit && vite build",
