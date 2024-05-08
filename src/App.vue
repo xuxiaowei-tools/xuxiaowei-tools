@@ -46,6 +46,17 @@ const host = location.host
     })();
   </component>
 
+  <!-- tools.xuxiaowei.com.cn -->
+  <component :is="'script'" v-if="host === 'tools.xuxiaowei.com.cn'">
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?fe8e32733f88dbb086002fdedf7bee8b";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+    })();
+  </component>
+
   <el-row justify="space-evenly">
     <el-col :span="22" class="text-center">
       <router-link to="/">Home</router-link>
