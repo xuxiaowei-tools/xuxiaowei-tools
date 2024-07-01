@@ -29,7 +29,7 @@ docker:build:
   stage: docker:build
   image:
     name: xuxiaoweicomcn/kaniko-project-executor:v1.22.0-debug
-    entrypoint: [""]
+    entrypoint: [ "" ]
   needs:
     - job: pages
       artifacts: true
@@ -38,14 +38,23 @@ docker:build:
   script:
     - echo $DOCKER_TAG
     - /kaniko/executor version
-    - /kaniko/executor
+    - if [ "$PUSH_DOCKER_HUB" = "true" ]; then
+      /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --build-arg "CI_PIPELINE_URL=${CI_PIPELINE_URL}"
       --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
       --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}-${CI_PIPELINE_ID}"
       --destination "xuxiaoweicomcn/xuxiaowei-tools:${DOCKER_TAG}"
-      --destination "xuxiaoweicomcn/xuxiaowei-tools:${DOCKER_TAG}-${CI_PIPELINE_ID}"
+      --destination "xuxiaoweicomcn/xuxiaowei-tools:${DOCKER_TAG}-${CI_PIPELINE_ID}";
+      else
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --build-arg "CI_PIPELINE_URL=${CI_PIPELINE_URL}"
+      --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
+      --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}-${CI_PIPELINE_ID}";
+      fi
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && $ENABLE_DOCS_DOCKER == "true"
 
