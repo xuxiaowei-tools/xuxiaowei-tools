@@ -12,8 +12,7 @@ sync-gitee:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - GITEE_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add gitee https://xuxiaowei-com-cn:$GITEE_PRIVATE_TOKEN@gitee.com/$GITEE_REPOSITORY.git
+    - git remote add gitee https://xuxiaowei-com-cn:$GITEE_PRIVATE_TOKEN@gitee.com/$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - if [ "$CI_COMMIT_BRANCH" ]; then
@@ -45,8 +44,7 @@ sync-gitcode:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - GITCODE_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add gitcode https://qq_32596527:$GITCODE_PRIVATE_TOKEN@gitcode.net/$GITCODE_REPOSITORY.git
+    - git remote add gitcode https://qq_32596527:$GITCODE_PRIVATE_TOKEN@gitcode.net/$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - if [ "$CI_COMMIT_BRANCH" ]; then
@@ -87,8 +85,7 @@ sync-gitlink:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - GITLINK_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add gitlink git@code.gitlink.org.cn:$GITLINK_REPOSITORY.git
+    - git remote add gitlink git@code.gitlink.org.cn:$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - ssh-keyscan -H code.gitlink.org.cn >> ~/.ssh/known_hosts
@@ -121,8 +118,7 @@ sync-gitlab:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - GITLAB_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add gitlab https://xuxiaowei-com-cn:$GITLAB_PRIVATE_TOKEN@gitlab.com/$GITLAB_REPOSITORY.git
+    - git remote add gitlab https://xuxiaowei-com-cn:$GITLAB_PRIVATE_TOKEN@gitlab.com/$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - if [ "$CI_COMMIT_BRANCH" ]; then
@@ -154,8 +150,7 @@ sync-github:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - GITHUB_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add github https://xuxiaowei-com-cn:$GITHUB_PRIVATE_TOKEN@github.com/$GITHUB_REPOSITORY.git
+    - git remote add github https://xuxiaowei-com-cn:$GITHUB_PRIVATE_TOKEN@github.com/$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - if [ "$CI_COMMIT_BRANCH" ]; then
@@ -187,8 +182,7 @@ sync-framagit:
     - git config --global user.name $GITLAB_USER_NAME
     - git config --global user.email
     - git config --global user.name
-    - FRAMAGIT_REPOSITORY=$(echo $CI_PROJECT_PATH | sed 's/xuxiaowei-jihu\///')
-    - git remote add framagit https://xuxiaowei:$FRAMAGIT_PRIVATE_TOKEN@framagit.org/$FRAMAGIT_REPOSITORY.git
+    - git remote add framagit https://xuxiaowei:$FRAMAGIT_PRIVATE_TOKEN@framagit.org/$CI_PROJECT_PATH.git
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 当前标签：$CI_COMMIT_TAG
     - if [ "$CI_COMMIT_BRANCH" ]; then
@@ -200,12 +194,40 @@ sync-framagit:
       git push -u framagit $CI_COMMIT_TAG;
       fi
   rules:
-    # framagit.org 不同步到自己
-    - if: $CI_SERVER_HOST == 'framagit.org'
+    # 匹配以 dependabot 开头的分支
+    - if: $CI_COMMIT_BRANCH =~ /^dependabot*/
       # 不执行
       when: never
+    # 非 PR 时触发
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == null && $ENABLE_SYNC == "true"
+  retry: 2
+  # 允许失败
+  allow_failure: true
+
+sync-jihulab:
+  stage: sync
+  variables:
+    GIT_DEPTH: 0 # 取消浅层克隆
+  image: registry.cn-qingdao.aliyuncs.com/xuxiaoweicomcn/bitnami-git:2.45.2
+  script:
+    - git config --global user.email $GITLAB_USER_EMAIL
+    - git config --global user.name $GITLAB_USER_NAME
+    - git config --global user.email
+    - git config --global user.name
+    - git remote add jihulab https://xuxiaowei:$JIHULAB_PRIVATE_TOKEN@jihulab.com/xuxiaowei-jihu/$CI_PROJECT_PATH.git
+    - echo 当前分支：$CI_COMMIT_BRANCH
+    - echo 当前标签：$CI_COMMIT_TAG
+    - if [ "$CI_COMMIT_BRANCH" ]; then
+      git checkout -b $CI_COMMIT_BRANCH;
+      git pull --progress -v --no-rebase jihulab $CI_COMMIT_BRANCH || echo 远端不存在$CI_COMMIT_BRANCH分支;
+      git push -u jihulab $CI_COMMIT_BRANCH;
+      fi
+    - if [ "$CI_COMMIT_TAG" ]; then
+      git push -u jihulab $CI_COMMIT_TAG;
+      fi
+  rules:
     # 匹配以 dependabot 开头的分支
-    - if: $CI_SERVER_HOST == 'gitlab.helm.xuxiaowei.cn' && $CI_COMMIT_BRANCH =~ /^dependabot*/
+    - if: $CI_COMMIT_BRANCH =~ /^dependabot*/
       # 不执行
       when: never
     # 非 PR 时触发

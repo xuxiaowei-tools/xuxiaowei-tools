@@ -1,7 +1,7 @@
 {
   "name": "xuxiaowei-tools",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "基于 Tauri、Vite 3、Vue 3、Element Plus 的工具箱",
   "type": "module",
   "scripts": {
