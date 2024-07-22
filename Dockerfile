@@ -7,7 +7,7 @@ ARG CI_PIPELINE_URL
 
 ENV CI_PIPELINE_URL=${CI_PIPELINE_URL}
 
-ADD public /usr/share/nginx/html/xuxiaowei-tools
+ADD dist /usr/share/nginx/html/xuxiaowei-tools
 ADD docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN sed -i '/http {/a\    server_tokens off;' /etc/nginx/nginx.conf

@@ -16,12 +16,27 @@ pages:
       - node_modules/
   script:
     - npm run pre:npm
+    - echo '构建有项目名的产物'
+    - cat vite.config.ts
+    - sed -i "s#base:\\ '/',#base:\\ '/xuxiaowei-tools',#g" vite.config.ts
+    - cat vite.config.ts
     - npm run build
     - mv dist/* public/
+    - echo '构建无项目名的产物'
+    - cat vite.config.ts
+    - sed -i "s#base:\\ '/xuxiaowei-tools',#base:\\ '/',#g" vite.config.ts
+    - cat vite.config.ts
+    - npm run build
+    # https://docs.gitlab.com/ee/user/project/pages/introduction.html#serving-compressed-assets
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+    #- find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
+    - find dist -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+    #- find dist -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
   artifacts:
     expire_in: 1 week
     paths:
       - public/
+      - dist/
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && $ENABLE_DOCS == "true"
 
